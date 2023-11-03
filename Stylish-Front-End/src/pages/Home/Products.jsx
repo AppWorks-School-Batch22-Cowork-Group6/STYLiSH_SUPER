@@ -126,6 +126,8 @@ function Products() {
 
     async function scrollHandler() {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        const category = searchParams.get('category') || 'all';
+        if (category === 'all') return;
         if (nextPaging === undefined) return;
         if (isFetching) return;
 
@@ -144,19 +146,19 @@ function Products() {
 
   return (
     <Wrapper>
-      {products.map(({ id, main_image, colors, title, price }) => (
-        <Product key={id} to={`/products/${id}`}>
-          <ProductImage src={main_image} />
+      { products.map(({ id, main_image, colors, title, price }) => (
+        <Product key={ id } to={ `/products/${id}` }>
+          <ProductImage src={ main_image } />
           <ProductColors>
-            {colors.map(({ code }) => (
-              <ProductColor $colorCode={`#${code}`} key={code} />
-            ))}
+            { colors.map(({ code }) => (
+              <ProductColor $colorCode={ `#${code}` } key={ code } />
+            )) }
           </ProductColors>
-          <ProductTitle>{title}</ProductTitle>
-          <ProductPrice>TWD.{price}</ProductPrice>
+          <ProductTitle>{ title }</ProductTitle>
+          <ProductPrice>TWD.{ price }</ProductPrice>
         </Product>
-      ))}
-      {isLoading && <Loading type="spinningBubbles" color="#313538" />}
+      )) }
+      { isLoading && <Loading type="spinningBubbles" color="#313538" /> }
     </Wrapper>
   );
 }
