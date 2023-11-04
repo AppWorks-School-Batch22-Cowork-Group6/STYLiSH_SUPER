@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import api from '../../utils/api';
 import prouctImg from "./product-main.png";
 import Recommend from './Recommend';
+import Button from './Recommend/Button';
 
 const Wrapper = styled.div`
   max-width: 1200px;
@@ -163,11 +164,7 @@ function Products() {
             </Product>
             { index === (products.length / 2 - 2) &&
               <Recommend>
-                <button className="absolute w-14 h-14 top-1/2 -translate-y-1/2 -left-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="gray">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                  </svg>
-                </button>
+                <Button position="left" />
                 <div className="flex gap-1">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
@@ -217,11 +214,7 @@ function Products() {
                     </div>
                   </div>
                 </div>
-                <button className="absolute top-1/2 -translate-y-1/2 -right-4 w-14 h-14">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="gray">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                  </svg>
-                </button>
+                <Button position="right" />
               </Recommend> }
           </>
 
