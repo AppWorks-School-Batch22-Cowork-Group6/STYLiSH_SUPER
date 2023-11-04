@@ -161,7 +161,12 @@ function Products() {
               <ProductPrice>TWD.{ price }</ProductPrice>
             </Product>
             { index === (products.length / 2 - 2) &&
-              <div className="w-full h-[375px] pt-2 px-5 pb-5 bg-gray-300 rounded-md mb-4 flex flex-col gap-4 xl:hidden">
+              <div className="w-full h-[375px] pt-2 px-5 pb-5 bg-gray-300 rounded-md mb-4 flex flex-col relative gap-4 xl:hidden">
+                <button className="absolute w-12 top-1/2 -translate-y-1/2 -left-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="gray" className="w-14 h-14">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                  </svg>
+                </button>
                 <div className="flex gap-1">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
@@ -211,6 +216,11 @@ function Products() {
                     </div>
                   </div>
                 </div>
+                <button className="absolute w-12 top-1/2 -translate-y-1/2 -right-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="gray" className="w-14 h-14">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+                </button>
               </div> }
           </>
 
