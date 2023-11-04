@@ -155,7 +155,6 @@ function Products() {
     <Wrapper>
       { products.map(({ id, main_image, colors, title, price }, index) => {
         return (
-          <>
             <Product key={ id } to={ `/products/${id}` } style={ { order: `${index}` } }>
               <ProductImage src={ main_image } />
               <ProductColors>
@@ -165,20 +164,19 @@ function Products() {
               </ProductColors>
               <ProductTitle>{ title }</ProductTitle>
               <ProductPrice>TWD.{ price }</ProductPrice>
-            </Product>
-            { index === (products.length / 2 - 2) &&
-              <Recommend isProductPage={ false }>
-                <Button position="left" onMoveToPrev={ () => recommend.moveToPreviousSlide(sliderRef) } />
-                <Heading text="大家都在買" />
-                <Container ref={ sliderRef }>
-                  { Array.from({ length: 10 }, (_, index) => <Thumbnail key={ index } />) }
-                </Container>
-                <Button position="right" onMoveToNext={ () => recommend.moveToNextSlide(sliderRef) } />
-              </Recommend> }
-          </>
+            </Product> 
 
         );
       }) }
+      {
+        <Recommend isProductPage={ false }>
+          <Button position="left" onMoveToPrev={ () => recommend.moveToPreviousSlide(sliderRef) } />
+          <Heading text="大家都在買" />
+          <Container ref={ sliderRef }>
+            { Array.from({ length: 10 }, (_, index) => <Thumbnail key={ index } />) }
+          </Container>
+          <Button position="right" onMoveToNext={ () => recommend.moveToNextSlide(sliderRef) } />
+        </Recommend> }
       { isLoading && <Loading type="spinningBubbles" color="#313538" /> }
     </Wrapper>
   );
