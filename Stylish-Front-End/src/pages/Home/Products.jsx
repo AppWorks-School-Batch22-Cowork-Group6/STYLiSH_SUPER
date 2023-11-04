@@ -167,7 +167,7 @@ function Products() {
       { products.map(({ id, main_image, colors, title, price }, index) => {
         return (
           <>
-            <Product key={ id } to={ `/products/${id}` }>
+            <Product key={ id } to={ `/products/${id}` } style={ { order: `${index}` } }>
               <ProductImage src={ main_image } />
               <ProductColors>
                 { colors.map(({ code }) => (
