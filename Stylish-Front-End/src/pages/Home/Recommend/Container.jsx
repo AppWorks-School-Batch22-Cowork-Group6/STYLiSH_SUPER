@@ -1,6 +1,7 @@
 const Container = ({ children, position }) => {
     return (
-        <div className={ `w-[200%] flex gap-6 duration-500` } style={ { transform: `translateX(${position}%)` } }>
+        <div className="w-full flex gap-6 duration-500 overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden 
+        xl:[&::-webkit-scrollbar]:hidden" style={ { transform: `translateX(${position}%)` } }>
             { children }
         </div>
     );
