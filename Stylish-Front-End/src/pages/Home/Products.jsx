@@ -105,6 +105,8 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
+  const [sliderPosition, setSliderPosition] = useState(0);
+  console.log(sliderPosition);
 
   const keyword = searchParams.get('keyword');
   const category = searchParams.get('category') || 'all';
@@ -149,6 +151,18 @@ function Products() {
     };
   }, [keyword, category]);
 
+  function moveToNextSlide() {
+    if (sliderPosition <= 100 && sliderPosition > -100) {
+      setSliderPosition(prev => prev - 20);
+    }
+  }
+
+  function moveToPreviousSlide() {
+    if (sliderPosition < 100 && sliderPosition >= -100) {
+      setSliderPosition(prev => prev + 20);
+    }
+  }
+
   return (
     <Wrapper>
       { products.map(({ id, main_image, colors, title, price }, index) => {
@@ -166,12 +180,12 @@ function Products() {
             </Product>
             { index === (products.length / 2 - 2) &&
               <Recommend>
-                <Button position="left" />
+                <Button position="left" onMoveToPrev={ moveToPreviousSlide } />
                 <Heading text="大家都在買" />
-                <Container>
+                <Container position={ sliderPosition }>
                   { Array.from({ length: 10 }, (_, index) => <Thumbnail key={ index } />) }
                 </Container>
-                <Button position="right" />
+                <Button position="right" onMoveToNext={ moveToNextSlide } />
               </Recommend> }
           </>
 
