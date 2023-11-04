@@ -1,10 +1,11 @@
-const Container = ({ children, position }) => {
+import { forwardRef } from 'react';
+const Container = forwardRef(({ children }, ref) => {
     return (
         <div className="w-full flex gap-6 duration-500 overflow-x-auto scroll-smooth [&::-webkit-scrollbar]:hidden 
-        xl:[&::-webkit-scrollbar]:hidden" style={ { transform: `translateX(${position}%)` } }>
+        xl:[&::-webkit-scrollbar]:hidden" ref={ ref }>
             { children }
         </div>
     );
-};
+});
 
 export default Container;

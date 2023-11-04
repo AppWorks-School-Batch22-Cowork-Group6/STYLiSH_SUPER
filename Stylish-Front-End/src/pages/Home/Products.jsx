@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ReactLoading from 'react-loading';
 import { Link, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -105,7 +105,7 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
-  const [sliderPosition, setSliderPosition] = useState(0);
+  const sliderRef = useRef(null);
 
   const keyword = searchParams.get('keyword');
   const category = searchParams.get('category') || 'all';
@@ -151,14 +151,16 @@ function Products() {
   }, [keyword, category]);
 
   function moveToNextSlide() {
-    if (sliderPosition <= 100 && sliderPosition > -90) {
-      setSliderPosition(prev => prev - 10);
+    if (sliderRef.current) {
+      const scrollAmount = sliderRef.current.offsetWidth * 0.2;
+      sliderRef.current.scrollLeft += scrollAmount;
     }
   }
 
   function moveToPreviousSlide() {
-    if (sliderPosition < 0 && sliderPosition >= -100) {
-      setSliderPosition(prev => prev + 10);
+    if (sliderRef.current) {
+      const scrollAmount = sliderRef.current.offsetWidth * 0.2;
+      sliderRef.current.scrollLeft -= scrollAmount;
     }
   }
 
@@ -181,7 +183,7 @@ function Products() {
               <Recommend isProductPage={ false }>
                 <Button position="left" onMoveToPrev={ moveToPreviousSlide } />
                 <Heading text="大家都在買" />
-                <Container position={ sliderPosition }>
+                <Container ref={ sliderRef }>
                   { Array.from({ length: 10 }, (_, index) => <Thumbnail key={ index } />) }
                 </Container>
                 <Button position="right" onMoveToNext={ moveToNextSlide } />
