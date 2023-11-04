@@ -8,6 +8,7 @@ import Button from './Recommend/Button';
 import Heading from './Recommend/Heading';
 import Thumbnail from './Recommend/Thumbnail';
 import Container from './Recommend/Container';
+import recommend from '../../utils/recommend';
 
 const Wrapper = styled.div`
   max-width: 1200px;
@@ -150,20 +151,6 @@ function Products() {
     };
   }, [keyword, category]);
 
-  function moveToNextSlide() {
-    if (sliderRef.current) {
-      const scrollAmount = sliderRef.current.offsetWidth * 0.2;
-      sliderRef.current.scrollLeft += scrollAmount;
-    }
-  }
-
-  function moveToPreviousSlide() {
-    if (sliderRef.current) {
-      const scrollAmount = sliderRef.current.offsetWidth * 0.2;
-      sliderRef.current.scrollLeft -= scrollAmount;
-    }
-  }
-
   return (
     <Wrapper>
       { products.map(({ id, main_image, colors, title, price }, index) => {
@@ -181,12 +168,12 @@ function Products() {
             </Product>
             { index === (products.length / 2 - 2) &&
               <Recommend isProductPage={ false }>
-                <Button position="left" onMoveToPrev={ moveToPreviousSlide } />
+                <Button position="left" onMoveToPrev={ () => recommend.moveToPreviousSlide(sliderRef) } />
                 <Heading text="大家都在買" />
                 <Container ref={ sliderRef }>
                   { Array.from({ length: 10 }, (_, index) => <Thumbnail key={ index } />) }
                 </Container>
-                <Button position="right" onMoveToNext={ moveToNextSlide } />
+                <Button position="right" onMoveToNext={ () => recommend.moveToNextSlide(sliderRef) } />
               </Recommend> }
           </>
 
