@@ -162,8 +162,8 @@ function Products() {
             </Product>
             { index === (products.length / 2 - 2) &&
               <div className="w-full h-[375px] pt-2 px-5 pb-5 bg-gray-300 rounded-md mb-4 flex flex-col relative gap-4 xl:hidden">
-                <button className="absolute w-12 top-1/2 -translate-y-1/2 -left-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="gray" className="w-14 h-14">
+                <button className="absolute w-14 h-14 top-1/2 -translate-y-1/2 -left-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="gray">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                   </svg>
                 </button>
@@ -216,8 +216,8 @@ function Products() {
                     </div>
                   </div>
                 </div>
-                <button className="absolute w-12 top-1/2 -translate-y-1/2 -right-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="gray" className="w-14 h-14">
+                <button className="absolute top-1/2 -translate-y-1/2 -right-4 w-14 h-14">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="gray">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                   </svg>
                 </button>
