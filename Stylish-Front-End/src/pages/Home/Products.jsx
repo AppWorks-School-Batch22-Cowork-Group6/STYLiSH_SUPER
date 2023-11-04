@@ -3,6 +3,7 @@ import ReactLoading from 'react-loading';
 import { Link, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../utils/api';
+import prouctImg from "./product-main.png";
 
 const Wrapper = styled.div`
   max-width: 1200px;
@@ -160,13 +161,55 @@ function Products() {
               <ProductPrice>TWD.{ price }</ProductPrice>
             </Product>
             { index === (products.length / 2 - 2) &&
-              <div className="w-full h-[200px] pt-2 px-3 pb-3 bg-gray-300 rounded-md mb-4 xl:hidden">
+              <div className="w-full h-[375px] pt-2 px-5 pb-5 bg-gray-300 rounded-md mb-4 flex flex-col gap-4 xl:hidden">
                 <div className="flex gap-1">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={ 1.5 } stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
                   </svg>
                   <span className="text-xl">大家都在買</span>
+                </div>
+                <div className="flex gap-5">
+                  <div className="bg-slate-50 px-5 py-3 rounded-lg">
+                    <img src={ prouctImg } alt="" className="w-full h-[250px] object-cover rounded-md" />
+                    <div className="flex gap-2 mt-3">
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 px-5 py-3 rounded-md">
+                    <img src={ prouctImg } alt="" className="w-full h-[250px] object-cover rounded-md" />
+                    <div className="flex gap-2 mt-3">
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 px-5 py-3 rounded-md">
+                    <img src={ prouctImg } alt="" className="w-full h-[250px] object-cover rounded-md" />
+                    <div className="flex gap-2 mt-3">
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 px-5 py-3 rounded-md">
+                    <img src={ prouctImg } alt="" className="w-full h-[250px] object-cover rounded-md" />
+                    <div className="flex gap-2 mt-3">
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 px-5 py-3 rounded-md">
+                    <img src={ prouctImg } alt="" className="w-full h-[250px] object-cover rounded-md" />
+                    <div className="flex gap-2 mt-3">
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                      <div className="aspect-square w-4 bg-green-500"></div>
+                    </div>
+                  </div>
                 </div>
               </div> }
           </>
