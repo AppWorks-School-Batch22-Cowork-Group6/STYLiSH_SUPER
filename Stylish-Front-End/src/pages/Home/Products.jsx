@@ -27,6 +27,7 @@ const Product = styled(Link)`
   margin: 0 20px 50px;
   flex-shrink: 0;
   text-decoration: none;
+  order: ${(props) => props.id};
 
   @media screen and (max-width: 1279px) {
     width: calc((100% - 12px) / 2);
@@ -155,7 +156,7 @@ function Products() {
     <Wrapper>
       { products.map(({ id, main_image, colors, title, price }, index) => {
         return (
-            <Product key={ id } to={ `/products/${id}` } style={ { order: `${index}` } }>
+            <Product key={ id } to={ `/products/${id}` } id={ index }>
               <ProductImage src={ main_image } />
               <ProductColors>
                 { colors.map(({ code }) => (
