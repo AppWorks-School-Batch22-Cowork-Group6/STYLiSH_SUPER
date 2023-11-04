@@ -1,14 +1,104 @@
-import { useEffect, useState, useRef } from 'react';
-import ReactLoading from 'react-loading';
-import { Link, useSearchParams } from 'react-router-dom';
-import styled from 'styled-components';
-import api from '../../utils/api';
-import Recommend from './Recommend';
-import Button from './Recommend/Button';
-import Heading from './Recommend/Heading';
-import Thumbnail from './Recommend/Thumbnail';
-import Container from './Recommend/Container';
-import recommend from '../../utils/recommend';
+import { useEffect, useRef, useState } from "react";
+import ReactLoading from "react-loading";
+import { Link, useSearchParams } from "react-router-dom";
+import styled from "styled-components";
+import api from "../../utils/api";
+import recommend from "../../utils/recommend";
+import Recommend from "./Recommend";
+import Button from "./Recommend/Button";
+import Container from "./Recommend/Container";
+import Heading from "./Recommend/Heading";
+import Thumbnail from "./Recommend/Thumbnail";
+
+function Products() {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const sliderRef = useRef(null);
+
+  const keyword = searchParams.get("keyword");
+  const category = searchParams.get("category") || "all";
+
+  useEffect(() => {
+    let nextPaging = 0;
+    let isFetching = false;
+
+    async function fetchProducts() {
+      isFetching = true;
+      setIsLoading(true);
+      const response = keyword
+        ? await api.searchProducts(keyword, nextPaging)
+        : await api.getProducts(category, nextPaging);
+      if (nextPaging === 0) {
+        setProducts(response.data);
+      } else {
+        setProducts((prev) => [...prev, ...response.data]);
+      }
+      nextPaging = response.next_paging;
+      isFetching = false;
+      setIsLoading(false);
+    }
+
+    async function scrollHandler() {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        const category = searchParams.get("category") || "all";
+        if (category === "all") return;
+        if (nextPaging === undefined) return;
+        if (isFetching) return;
+
+        fetchProducts();
+      }
+    }
+
+    fetchProducts();
+
+    window.addEventListener("scroll", scrollHandler);
+
+    return () => {
+      window.removeEventListener("scroll", scrollHandler);
+    };
+  }, [keyword, category]);
+
+  return (
+    <Wrapper>
+      {products.map(({ id, main_image, colors, title, price }, index) => {
+        return (
+          <Product key={id} to={`/products/${id}`} id={index}>
+            <ProductImage src={main_image} />
+            <ProductColors>
+              {colors.map(({ code }) => (
+                <ProductColor $colorCode={`#${code}`} key={code} />
+              ))}
+            </ProductColors>
+            <ProductTitle>{title}</ProductTitle>
+            <ProductPrice>TWD.{price}</ProductPrice>
+          </Product>
+        );
+      })}
+      {category !== "all" && (
+        <Recommend isProductPage={false}>
+          <Button
+            position="left"
+            onMoveToPrev={() => recommend.moveToPreviousSlide(sliderRef)}
+          />
+          <Heading text="大家都在買" />
+          <Container ref={sliderRef}>
+            {Array.from({ length: 10 }, (_, index) => (
+              <Thumbnail key={index} />
+            ))}
+          </Container>
+          <Button
+            position="right"
+            onMoveToNext={() => recommend.moveToNextSlide(sliderRef)}
+          />
+        </Recommend>
+      )}
+      {isLoading && <Loading type="spinningBubbles" color="#313538" />}
+    </Wrapper>
+  );
+}
+
+export default Products;
 
 const Wrapper = styled.div`
   max-width: 1200px;
@@ -102,85 +192,3 @@ const ProductPrice = styled.div`
 const Loading = styled(ReactLoading)`
   margin: 0 auto;
 `;
-
-function Products() {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchParams] = useSearchParams();
-  const sliderRef = useRef(null);
-
-  const keyword = searchParams.get('keyword');
-  const category = searchParams.get('category') || 'all';
-
-  useEffect(() => {
-    let nextPaging = 0;
-    let isFetching = false;
-
-    async function fetchProducts() {
-      isFetching = true;
-      setIsLoading(true);
-      const response = keyword
-        ? await api.searchProducts(keyword, nextPaging)
-        : await api.getProducts(category, nextPaging);
-      if (nextPaging === 0) {
-        setProducts(response.data);
-      } else {
-        setProducts((prev) => [...prev, ...response.data]);
-      }
-      nextPaging = response.next_paging;
-      isFetching = false;
-      setIsLoading(false);
-    }
-
-    async function scrollHandler() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        const category = searchParams.get('category') || 'all';
-        if (category === 'all') return;
-        if (nextPaging === undefined) return;
-        if (isFetching) return;
-
-        fetchProducts();
-      }
-    }
-
-    fetchProducts();
-
-    window.addEventListener('scroll', scrollHandler);
-
-    return () => {
-      window.removeEventListener('scroll', scrollHandler);
-    };
-  }, [keyword, category]);
-
-  return (
-    <Wrapper>
-      { products.map(({ id, main_image, colors, title, price }, index) => {
-        return (
-            <Product key={ id } to={ `/products/${id}` } id={ index }>
-              <ProductImage src={ main_image } />
-              <ProductColors>
-                { colors.map(({ code }) => (
-                  <ProductColor $colorCode={ `#${code}` } key={ code } />
-                )) }
-              </ProductColors>
-              <ProductTitle>{ title }</ProductTitle>
-              <ProductPrice>TWD.{ price }</ProductPrice>
-            </Product> 
-
-        );
-      }) }
-      { category !== 'all' &&
-        <Recommend isProductPage={ false }>
-          <Button position="left" onMoveToPrev={ () => recommend.moveToPreviousSlide(sliderRef) } />
-          <Heading text="大家都在買" />
-          <Container ref={ sliderRef }>
-            { Array.from({ length: 10 }, (_, index) => <Thumbnail key={ index } />) }
-          </Container>
-          <Button position="right" onMoveToNext={ () => recommend.moveToNextSlide(sliderRef) } />
-        </Recommend> }
-      { isLoading && <Loading type="spinningBubbles" color="#313538" /> }
-    </Wrapper>
-  );
-}
-
-export default Products;
