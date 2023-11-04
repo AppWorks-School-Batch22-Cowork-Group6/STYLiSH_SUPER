@@ -178,7 +178,7 @@ function Products() {
               <ProductPrice>TWD.{ price }</ProductPrice>
             </Product>
             { index === (products.length / 2 - 2) &&
-              <Recommend>
+              <Recommend isProductPage={ false }>
                 <Button position="left" onMoveToPrev={ moveToPreviousSlide } />
                 <Heading text="大家都在買" />
                 <Container position={ sliderPosition }>

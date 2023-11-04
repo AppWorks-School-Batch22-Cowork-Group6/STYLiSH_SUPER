@@ -3,6 +3,11 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../utils/api';
 import ProductVariants from './ProductVariants';
+import Recommend from '../Home/Recommend';
+import Button from '../Home/Recommend/Button';
+import Heading from '../Home/Recommend/Heading';
+import Thumbnail from '../Home/Recommend/Thumbnail';
+import Container from '../Home/Recommend/Container';
 
 const Wrapper = styled.div`
   max-width: 960px;
@@ -192,6 +197,7 @@ const Image = styled.img`
 function Product() {
   const [product, setProduct] = useState();
   const { id } = useParams();
+  const [sliderPosition, setSliderPosition] = useState(0);
 
   useEffect(() => {
     async function getProduct() {
@@ -203,28 +209,49 @@ function Product() {
 
   if (!product) return null;
 
+  function moveToNextSlide() {
+    if (sliderPosition <= 100 && sliderPosition > -90) {
+      setSliderPosition(prev => prev - 10);
+    }
+  }
+
+  function moveToPreviousSlide() {
+    if (sliderPosition < 0 && sliderPosition >= -100) {
+      setSliderPosition(prev => prev + 10);
+    }
+  }
+
   return (
     <Wrapper>
-      <MainImage src={product.main_image} />
+      <MainImage src={ product.main_image } />
       <Details>
-        <Title>{product.title}</Title>
-        <ID>{product.id}</ID>
-        <Price>TWD.{product.price}</Price>
-        <ProductVariants product={product} />
-        <Note>{product.note}</Note>
-        <Texture>{product.texture}</Texture>
-        <Description>{product.description}</Description>
-        <Place>素材產地 / {product.place}</Place>
-        <Place>加工產地 / {product.place}</Place>
+        <Title>{ product.title }</Title>
+        <ID>{ product.id }</ID>
+        <Price>TWD.{ product.price }</Price>
+        <ProductVariants product={ product } />
+        <Note>{ product.note }</Note>
+        <Texture>{ product.texture }</Texture>
+        <Description>{ product.description }</Description>
+        <Place>素材產地 / { product.place }</Place>
+        <Place>加工產地 / { product.place }</Place>
       </Details>
+      { <Recommend isProductPage={ true }>
+        <Button position="left" onMoveToPrev={ moveToPreviousSlide } />
+        <Heading text="大家都在買" />
+        <Container position={ sliderPosition }>
+          { Array.from({ length: 10 }, (_, index) => <Thumbnail key={ index } />) }
+        </Container>
+        <Button position="right" onMoveToNext={ moveToNextSlide } />
+      </Recommend>
+      }
       <Story>
         <StoryTitle>細部說明</StoryTitle>
-        <StoryContent>{product.story}</StoryContent>
+        <StoryContent>{ product.story }</StoryContent>
       </Story>
       <Images>
-        {product.images.map((image, index) => (
-          <Image src={image} key={index} />
-        ))}
+        { product.images.map((image, index) => (
+          <Image src={ image } key={ index } />
+        )) }
       </Images>
     </Wrapper>
   );
