@@ -106,7 +106,6 @@ function Products() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const [sliderPosition, setSliderPosition] = useState(0);
-  console.log(sliderPosition);
 
   const keyword = searchParams.get('keyword');
   const category = searchParams.get('category') || 'all';
