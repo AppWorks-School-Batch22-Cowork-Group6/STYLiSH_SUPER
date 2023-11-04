@@ -152,14 +152,14 @@ function Products() {
   }, [keyword, category]);
 
   function moveToNextSlide() {
-    if (sliderPosition <= 100 && sliderPosition > -100) {
-      setSliderPosition(prev => prev - 20);
+    if (sliderPosition <= 100 && sliderPosition > -90) {
+      setSliderPosition(prev => prev - 10);
     }
   }
 
   function moveToPreviousSlide() {
-    if (sliderPosition < 100 && sliderPosition >= -100) {
-      setSliderPosition(prev => prev + 20);
+    if (sliderPosition < 0 && sliderPosition >= -100) {
+      setSliderPosition(prev => prev + 10);
     }
   }
 

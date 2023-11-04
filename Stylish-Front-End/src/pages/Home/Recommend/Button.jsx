@@ -2,7 +2,7 @@ const Button = ({ position, onMoveToPrev, onMoveToNext }) => {
     const buttonPosition = position === 'left' ? '-left-4' : '-right-4';
     const buttonPath = position === 'left' ? 'M15.75 19.5L8.25 12l7.5-7.5' : 'M8.25 4.5l7.5 7.5-7.5 7.5';
     return (
-        <button className={ `absolute w-14 h-14 top-1/2 -translate-y-1/2 ${buttonPosition}` }
+        <button className={ `absolute w-14 h-14 top-1/2 -translate-y-1/2 ${buttonPosition} z-10` }
             onClick={ position === "left" ?
                 onMoveToPrev :
                 onMoveToNext }>
