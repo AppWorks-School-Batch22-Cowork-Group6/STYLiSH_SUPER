@@ -169,7 +169,7 @@ function Products() {
 
         );
       }) }
-      {
+      { category !== 'all' &&
         <Recommend isProductPage={ false }>
           <Button position="left" onMoveToPrev={ () => recommend.moveToPreviousSlide(sliderRef) } />
           <Heading text="大家都在買" />
