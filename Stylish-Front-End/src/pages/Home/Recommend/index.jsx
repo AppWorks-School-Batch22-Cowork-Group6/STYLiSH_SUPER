@@ -1,11 +1,13 @@
 const Recommend = ({ children, isProductPage }) => {
-    const order = !isProductPage ? 'order-5' : 'order-none';
-    const margin = !isProductPage ? 'mx-auto' : 'mx-5 xl:mx-0 xl:mt-14 xl:-mb-6';
-    return (
-        <div className={ `w-4/5 xl:w-full h-[240px] xl:h-[375px] py-2 px-8 xl:px-10 xl:pb-5 bg-gray-300 rounded-md mb-4 flex flex-col relative gap-4 overflow-hidden ${order} xl:mx-5 xl:mb-10 ${margin}` }>
-            { children }
-        </div>
-    );
+  const order = !isProductPage ? "order-5" : "order-none";
+  const margin = !isProductPage ? "mx-auto" : "mx-5 lg:mx-0 lg:mt-14 lg:-mb-6";
+  return (
+    <div
+      className={`relative mb-4 flex h-52 w-full flex-col justify-between gap-1 overflow-hidden rounded-lg bg-gray-100 px-4 py-3 lg:h-[375px] lg:w-full lg:px-10 lg:pb-5 ${order} lg:mx-5 lg:mb-10 ${margin}`}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default Recommend;
