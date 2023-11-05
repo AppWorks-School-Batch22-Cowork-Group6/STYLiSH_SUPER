@@ -8,7 +8,7 @@ const ProductList = () => {
             <ul className="flex flex-col gap-5">
                 { Array.from({ length: 3 }, (_, i) => {
                     return (
-                        <Product image={ productImg } name="前開衩扭結洋裝" key={ i } />
+                        <Product image={ productImg } name="前開衩扭結洋裝" key={ i } price="799"/>
                     );
                 }) }
             </ul>
