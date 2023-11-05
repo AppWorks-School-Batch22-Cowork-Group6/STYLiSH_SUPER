@@ -13,7 +13,7 @@ const Product = ({ image, name, price }) => {
             <div className="flex flex-col">
                 <Price hideOnMobile={ false } hideOnDesktop={ true } price={ price } />
                 <Link to="/live" className="mt-auto">
-                    <button className="border border-gray-500 bg-black text-white rounded-md px-4 py-2 xl:px-2 xl:py-4 w-28 xl:text-xl">
+                    <button className="bg-black text-white rounded-md px-4 py-2 xl:px-2 xl:py-4 w-28 xl:text-xl">
                         前往購買
                     </button>
                 </Link>
