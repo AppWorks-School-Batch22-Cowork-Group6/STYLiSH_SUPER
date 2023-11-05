@@ -103,7 +103,7 @@ export default Products;
 const Wrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 70px 0 46px;
+  padding: 32px 0 46px;
   display: flex;
   flex-wrap: wrap;
 
