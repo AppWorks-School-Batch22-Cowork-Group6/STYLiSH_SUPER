@@ -2,7 +2,7 @@ import video from "./herbst_version2.mp4";
 const Video = () => {
     return (
         <div className="h-full flex flex-col px-8 xl:gap-8 justify-center">
-            <video muted autoPlay >
+            <video muted autoPlay className="h-full bg-black px-10 xl:px-0">
                 <source src={ video } type="video/mp4" />
             </video>
             <div className="flex gap-2 xl:gap-4 mt-2 pb-6">
