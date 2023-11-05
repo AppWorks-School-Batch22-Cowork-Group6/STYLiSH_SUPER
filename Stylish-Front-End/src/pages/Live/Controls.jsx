@@ -1,6 +1,6 @@
 const Controls = ({ names }) => {
     return (
-        <div className="flex gap-2 xl:gap-4 mt-2 pb-6">
+        <div className="flex gap-2 xl:gap-4 mt-2 pb-6 xl:pb-0">
             { names.map((name, index) => {
                 return (
                     <button className="text-2xl xl:text-4xl" key={ index }>
