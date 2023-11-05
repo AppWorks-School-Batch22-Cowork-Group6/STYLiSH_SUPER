@@ -1,9 +1,9 @@
 const Controls = ({ names }) => {
     return (
-        <div className="flex gap-2 xl:gap-4 mt-2 pb-6 xl:pb-0">
+        <div className="flex gap-2 lg:gap-4 mt-2 pb-6 lg:pb-0">
             { names.map((name, index) => {
                 return (
-                    <button className="text-2xl xl:text-4xl" key={ index }>
+                    <button className="text-2xl lg:text-4xl" key={ index }>
                         { name === "volume-off-outline" ?
                             <div className="flex gap-2 items-center" >
                                 <ion-icon name={ name }></ion-icon>

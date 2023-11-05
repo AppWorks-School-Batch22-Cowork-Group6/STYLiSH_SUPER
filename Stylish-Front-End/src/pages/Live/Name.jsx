@@ -1,6 +1,6 @@
 const Name = ({ name }) => {
     return (
-        <p className="mt-0 mb-8 xl:text-2xl leading-none">{ name }</p>
+        <p className="mt-0 mb-8 lg:text-2xl leading-none">{ name }</p>
     );
 };
 
