@@ -5,7 +5,7 @@ const ProductList = () => {
         <div className="row-start-2 px-6 xl:px-0 mt-6xl:m-0 xl:row-start-1 xl:col-start-2">
             <h3 className="text-2xl mb-6 xl:mb-3">熱門商品</h3>
             <ul className="flex flex-col gap-5">
-                <li className="flex border-2 border-gray-300 rounded">
+                <li className="flex">
                     <img src={ productImg } alt="" className="w-20 xl:w-28 object-cover" />
                     <div className="flex flex-1 xl:flex-col ml-4">
                         <p className="mt-0 mb-8 mr-10 text-lg">前開衩扭結洋裝</p>
