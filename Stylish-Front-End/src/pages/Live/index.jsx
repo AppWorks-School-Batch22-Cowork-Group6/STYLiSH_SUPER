@@ -1,6 +1,9 @@
+import Wrapper from "./Wrapper";
 const Live = () => {
     return (
-        <div>Live</div>
+        <Wrapper>
+            <div>Live</div>
+        </Wrapper>
     );
 };
 
