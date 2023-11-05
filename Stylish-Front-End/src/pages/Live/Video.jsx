@@ -5,7 +5,7 @@ const Video = () => {
             <video muted autoPlay >
                 <source src={ video } type="video/mp4" />
             </video>
-            <div className="flex gap-4 mt-2 pb-6">
+            <div className="flex gap-2 xl:gap-4 mt-2 pb-6">
                 <div className="flex gap-2 items-center">
                     <button className="text-2xl xl:text-4xl">
                         <ion-icon name="volume-off-outline"></ion-icon>
