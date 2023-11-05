@@ -1,5 +1,6 @@
 import Wrapper from "./Wrapper";
 import Video from "./Video";
+import ProductList from "./ProductList";
 const Live = () => {
     return (
         <Wrapper>
@@ -24,6 +25,7 @@ const Live = () => {
                     <ion-icon name="share-social-outline"></ion-icon>
                 </button>
             </div>
+            <ProductList />
         </Wrapper>
     );
 };
