@@ -1,4 +1,5 @@
 import Carousel from "./Carousel";
+
 import Products from "./Products";
 import SortMenu from "./SortMenu";
 

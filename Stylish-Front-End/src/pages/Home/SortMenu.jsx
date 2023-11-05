@@ -7,8 +7,9 @@ import ProductContext from "../../context/productContext";
 const SortMenu = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category") || "all";
+  const priceTextOptions = ["價格排序", "價格低至高", "價格高到低"];
 
-  const { actions, activeSortButton, currentPriceOption } =
+  const { actions, activeSortButton, currentPriceOption, isMobileFilterShow } =
     useContext(ProductContext);
 
   const priceIconOptions = [
@@ -17,7 +18,41 @@ const SortMenu = () => {
     "M112 268l144 144 144-144M256 392V100",
   ];
 
-  const priceTextOptions = ["價格排序", "價格低至高", "價格高到低"];
+  const PriceIcon = () => {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+        className="sortIcon h-5 w-5 stroke-default pt-[1px] sm:h-[10px] sm:w-[10px]"
+      >
+        <path
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="32"
+          d={priceIconOptions[currentPriceOption]}
+        />
+      </svg>
+    );
+  };
+
+  const FilterIcon = () => {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+        className="filterIcon cursor-pointer stroke-default sm:h-5 sm:w-5 lg:hidden"
+      >
+        <path
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="32"
+          d="M32 144h448M112 256h288M208 368h96"
+        />
+      </svg>
+    );
+  };
 
   const handlePriceSortClick = (e, buttonId) => {
     let num = currentPriceOption + 1;
@@ -61,33 +96,14 @@ const SortMenu = () => {
           onClick={(e) => handlePriceSortClick(e, 2)}
         >
           <p>{priceTextOptions[currentPriceOption]}</p>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            className="sortIcon h-5 w-5 stroke-default pt-[1px] sm:h-[10px] sm:w-[10px]"
-          >
-            <path
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="32"
-              d={priceIconOptions[currentPriceOption]}
-            />
-          </svg>
+          <PriceIcon />
         </button>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          className="filterIcon cursor-pointer stroke-default sm:h-5 sm:w-5 lg:hidden"
+        <button
+          className="cursor-pointer"
+          onClick={() => actions.setIsMobileFilterShow(!isMobileFilterShow)}
         >
-          <path
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="32"
-            d="M32 144h448M112 256h288M208 368h96"
-          />
-        </svg>
+          <FilterIcon />
+        </button>
       </div>
     )
   );

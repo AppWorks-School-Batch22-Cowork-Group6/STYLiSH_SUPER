@@ -4,6 +4,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import api from "../../utils/api";
 import recommend from "../../utils/recommend";
+import FilterMenu from "./FilterMenu";
 import Recommend from "./Recommend";
 import Button from "./Recommend/Button";
 import Container from "./Recommend/Container";
@@ -75,6 +76,7 @@ function Products() {
           </Product>
         );
       })}
+      <FilterMenu />
       {category !== "all" && (
         <Recommend isProductPage={false}>
           <Button
@@ -106,6 +108,7 @@ const Wrapper = styled.div`
   padding: 32px 0 46px;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
 
   @media screen and (max-width: 1279px) {
     padding: 15px 21px 6px;
