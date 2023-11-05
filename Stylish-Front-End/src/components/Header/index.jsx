@@ -3,12 +3,82 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../../context/authContext";
 import { CartContext } from "../../context/cartContext";
+import ProductContext from "../../context/productContext";
 import cartMobile from "./cart-mobile.png";
 import cart from "./cart.png";
 import logo from "./logo.png";
 import profileMobile from "./profile-mobile.png";
 import profile from "./profile.png";
 import search from "./search.png";
+
+function Header() {
+  const [inputValue, setInputValue] = useState("");
+  const { user } = useContext(AuthContext);
+  const { cartCount } = useContext(CartContext);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
+  const { actions } = useContext(ProductContext);
+
+  useEffect(() => {
+    if (category) setInputValue("");
+  }, [category]);
+
+  return (
+    <Wrapper>
+      <Logo to="/" />
+      <CategoryLinks>
+        {categories.map(({ name, displayText }, index) => (
+          <>
+            <CategoryLink
+              $isActive={category === name}
+              key={index}
+              onClick={() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+                navigate(`/?category=${name}`);
+                actions.setCurrentPriceOption(0);
+                actions.setActiveSortButton(null);
+              }}
+            >
+              {displayText}
+            </CategoryLink>
+            {index !== 2 && (
+              <p className="inline p-0 text-xl tracking-[30px] text-[#3f3a3a] no-underline sm:text-center sm:text-base sm:leading-[50px] sm:tracking-normal sm:text-[#828282]">
+                |
+              </p>
+            )}
+          </>
+        ))}
+      </CategoryLinks>
+      <SearchInput
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {
+            navigate(`/?keyword=${inputValue}`);
+          }
+        }}
+        onChange={(e) => setInputValue(e.target.value)}
+        value={inputValue}
+      />
+      <PageLinks>
+        <PageLink to="/checkout">
+          <PageLinkCartIcon icon={cart}>
+            <PageLinkIconNumber>{cartCount}</PageLinkIconNumber>
+          </PageLinkCartIcon>
+          <PageLinkText>購物車</PageLinkText>
+        </PageLink>
+        <PageLink to="/profile">
+          <PageLinkProfileIcon icon={profile} url={user?.picture} />
+          <PageLinkText>會員</PageLinkText>
+        </PageLink>
+      </PageLinks>
+    </Wrapper>
+  );
+}
+
+export default Header;
 
 const Wrapper = styled.div`
   position: fixed;
@@ -84,17 +154,6 @@ const CategoryLink = styled.a`
       color: white;
     }
   }
-  /* 
-  & + &::before {
-    content: '|';
-    position: absolute;
-    left: 0;
-    color: #3f3a3a;
-
-    @media screen and (max-width: 1279px) {
-      color: #828282;
-    }
-  } */
 `;
 
 const SearchInput = styled.input`
@@ -238,69 +297,3 @@ const categories = [
     displayText: "配件",
   },
 ];
-
-function Header() {
-  const [inputValue, setInputValue] = useState("");
-  const { user } = useContext(AuthContext);
-  const { cartCount } = useContext(CartContext);
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const category = searchParams.get("category");
-
-  useEffect(() => {
-    if (category) setInputValue("");
-  }, [category]);
-
-  return (
-    <Wrapper>
-      <Logo to="/" />
-      <CategoryLinks>
-        {categories.map(({ name, displayText }, index) => (
-          <>
-            <CategoryLink
-              $isActive={category === name}
-              key={index}
-              onClick={() => {
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
-                navigate(`/?category=${name}`);
-              }}
-            >
-              {displayText}
-            </CategoryLink>
-            {index !== 2 && (
-              <p className="inline p-0 text-xl tracking-[30px] text-[#3f3a3a] no-underline sm:text-center sm:text-base sm:leading-[50px] sm:tracking-normal sm:text-[#828282]">
-                |
-              </p>
-            )}
-          </>
-        ))}
-      </CategoryLinks>
-      <SearchInput
-        onKeyPress={(e) => {
-          if (e.key === "Enter") {
-            navigate(`/?keyword=${inputValue}`);
-          }
-        }}
-        onChange={(e) => setInputValue(e.target.value)}
-        value={inputValue}
-      />
-      <PageLinks>
-        <PageLink to="/checkout">
-          <PageLinkCartIcon icon={cart}>
-            <PageLinkIconNumber>{cartCount}</PageLinkIconNumber>
-          </PageLinkCartIcon>
-          <PageLinkText>購物車</PageLinkText>
-        </PageLink>
-        <PageLink to="/profile">
-          <PageLinkProfileIcon icon={profile} url={user?.picture} />
-          <PageLinkText>會員</PageLinkText>
-        </PageLink>
-      </PageLinks>
-    </Wrapper>
-  );
-}
-
-export default Header;

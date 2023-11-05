@@ -1,14 +1,15 @@
 // import { useState } from "react";
 import classNames from "classnames";
-import { useState } from "react";
+import { useContext } from "react";
 import { useSearchParams } from "react-router-dom";
+import ProductContext from "../../context/productContext";
 
 const SortMenu = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category") || "all";
 
-  const [currentPriceOption, setCurrentPriceOption] = useState(0);
-  const [activeButton, setActiveButton] = useState(null);
+  const { actions, activeSortButton, currentPriceOption } =
+    useContext(ProductContext);
 
   const priceIconOptions = [
     "M464 208L352 96 240 208M352 113.13V416M48 304l112 112 112-112M160 398V96",
@@ -18,21 +19,13 @@ const SortMenu = () => {
 
   const priceTextOptions = ["價格排序", "價格低至高", "價格高到低"];
 
-  const handleSortingClick = (buttonId) => {
-    setActiveButton(buttonId);
-  };
-
   const handlePriceSortClick = (e, buttonId) => {
     let num = currentPriceOption + 1;
     if (num === 3) {
       num = 0;
     }
-    setCurrentPriceOption(num);
-    setActiveButton(buttonId);
-  };
-
-  const isButtonActive = (buttonId) => {
-    return activeButton === buttonId;
+    actions.setCurrentPriceOption(num);
+    actions.setActiveSortButton(buttonId);
   };
 
   const sortingButtonsClass = (id) => {
@@ -40,8 +33,8 @@ const SortMenu = () => {
       "h-10 w-60 rounded-lg text-xl leading-5 tracking-[0.5em] text-default sm:h-5 sm:w-auto sm:whitespace-nowrap sm:rounded sm:px-2 sm:text-xs sm:tracking-widest": true,
       "flex flex-row items-center justify-center align-middle sm:mr-auto":
         id === 2,
-      "border border-solid border-gray-400": !isButtonActive(id),
-      "bg-[#f4d2b5]": isButtonActive(id),
+      "border border-solid border-gray-400": !(activeSortButton === id),
+      "bg-[#f4d2b5]": activeSortButton === id,
     });
   };
 
@@ -53,13 +46,13 @@ const SortMenu = () => {
         </h1>
         <button
           className={sortingButtonsClass(0)}
-          onClick={() => handleSortingClick(0)}
+          onClick={() => actions.setActiveSortButton(0)}
         >
           推薦排序
         </button>
         <button
           className={sortingButtonsClass(1)}
-          onClick={() => handleSortingClick(1)}
+          onClick={() => actions.setActiveSortButton(1)}
         >
           新上市
         </button>
@@ -71,7 +64,7 @@ const SortMenu = () => {
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
-            className="h-5 w-5 stroke-default pt-[1px] sm:h-[10px] sm:w-[10px]"
+            className="sortIcon h-5 w-5 stroke-default pt-[1px] sm:h-[10px] sm:w-[10px]"
           >
             <path
               fill="none"
@@ -85,7 +78,7 @@ const SortMenu = () => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
-          className="cursor-pointer stroke-default sm:h-5 sm:w-5 lg:hidden"
+          className="filterIcon cursor-pointer stroke-default sm:h-5 sm:w-5 lg:hidden"
         >
           <path
             fill="none"
