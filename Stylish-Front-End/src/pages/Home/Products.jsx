@@ -1,8 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ReactLoading from 'react-loading';
 import { Link, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '../../utils/api';
+import Recommend from './Recommend';
+import Button from './Recommend/Button';
+import Heading from './Recommend/Heading';
+import Thumbnail from './Recommend/Thumbnail';
+import Container from './Recommend/Container';
+import recommend from '../../utils/recommend';
 
 const Wrapper = styled.div`
   max-width: 1200px;
@@ -21,6 +27,7 @@ const Product = styled(Link)`
   margin: 0 20px 50px;
   flex-shrink: 0;
   text-decoration: none;
+  order: ${(props) => props.id};
 
   @media screen and (max-width: 1279px) {
     width: calc((100% - 12px) / 2);
@@ -100,6 +107,7 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
+  const sliderRef = useRef(null);
 
   const keyword = searchParams.get('keyword');
   const category = searchParams.get('category') || 'all';
@@ -146,18 +154,30 @@ function Products() {
 
   return (
     <Wrapper>
-      { products.map(({ id, main_image, colors, title, price }) => (
-        <Product key={ id } to={ `/products/${id}` }>
-          <ProductImage src={ main_image } />
-          <ProductColors>
-            { colors.map(({ code }) => (
-              <ProductColor $colorCode={ `#${code}` } key={ code } />
-            )) }
-          </ProductColors>
-          <ProductTitle>{ title }</ProductTitle>
-          <ProductPrice>TWD.{ price }</ProductPrice>
-        </Product>
-      )) }
+      { products.map(({ id, main_image, colors, title, price }, index) => {
+        return (
+            <Product key={ id } to={ `/products/${id}` } id={ index }>
+              <ProductImage src={ main_image } />
+              <ProductColors>
+                { colors.map(({ code }) => (
+                  <ProductColor $colorCode={ `#${code}` } key={ code } />
+                )) }
+              </ProductColors>
+              <ProductTitle>{ title }</ProductTitle>
+              <ProductPrice>TWD.{ price }</ProductPrice>
+            </Product> 
+
+        );
+      }) }
+      { category !== 'all' &&
+        <Recommend isProductPage={ false }>
+          <Button position="left" onMoveToPrev={ () => recommend.moveToPreviousSlide(sliderRef) } />
+          <Heading text="大家都在買" />
+          <Container ref={ sliderRef }>
+            { Array.from({ length: 10 }, (_, index) => <Thumbnail key={ index } />) }
+          </Container>
+          <Button position="right" onMoveToNext={ () => recommend.moveToNextSlide(sliderRef) } />
+        </Recommend> }
       { isLoading && <Loading type="spinningBubbles" color="#313538" /> }
     </Wrapper>
   );
