@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
+import Name from "./Name";
 
-const Product = ({ image }) => {
+const Product = ({ image, name }) => {
     return (
         <li className="flex">
             <img src={ image } alt="" className="w-20 xl:w-28 object-cover" />
             <div className="flex flex-1 ml-2 xl:flex-col xl:ml-4">
-                <p className="mt-0 mb-8 xl:text-2xl leading-none">前開衩扭結洋裝</p>
+                <Name name={ name } />
                 <p className="hidden xl:block xl:mb-14 xl:text-xl tracking-widest">TWD.799</p>
             </div>
             <div className="flex flex-col">
