@@ -7,7 +7,7 @@ const Heading = ({ text }) => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="h-6 w-6 lg:h-8 lg:w-8"
+        className="h-3 w-3 lg:h-8 lg:w-8"
       >
         <path
           strokeLinecap="round"
@@ -20,7 +20,7 @@ const Heading = ({ text }) => {
           d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"
         />
       </svg>
-      <span className="text-xl lg:text-2xl">{text}</span>
+      <span className="text-xs leading-[12px] lg:text-2xl">{text}</span>
     </div>
   );
 };

@@ -1,18 +1,18 @@
 import productImg from "../product-main.png";
 const Thumbnail = () => {
   return (
-    <div className="flex h-[290px] shrink-0 flex-col justify-between rounded-lg bg-slate-50 px-5 py-3 lg:p-4">
+    <div className="flex h-40 shrink-0 cursor-pointer flex-col justify-between rounded-lg bg-slate-50 p-2 lg:h-[290px] lg:p-4">
       <img
         src={productImg}
         alt=""
-        className="h-[120px] w-full rounded-md object-cover lg:h-[205px]"
+        className="h-[120px] w-full rounded object-cover lg:h-[205px] lg:rounded-md"
       />
-      <div className="flex gap-2">
-        <div className="aspect-square w-4 bg-green-500"></div>
-        <div className="aspect-square w-4 bg-green-500"></div>
-        <div className="aspect-square w-4 bg-green-500"></div>
+      <div className="hidden gap-2 lg:flex">
+        <div className="aspect-square w-2 bg-green-500 lg:w-4"></div>
+        <div className="aspect-square w-2 bg-green-500  lg:w-4"></div>
+        <div className="aspect-square w-2 bg-green-500 lg:w-4"></div>
       </div>
-      <h1 className="text-xs text-default">產品名稱</h1>
+      <h1 className="text-xs text-default lg:text-sm">產品名稱</h1>
     </div>
   );
 };
