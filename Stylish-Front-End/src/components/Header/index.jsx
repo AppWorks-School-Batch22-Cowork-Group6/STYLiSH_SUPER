@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { AuthContext } from "../../context/authContext";
@@ -12,13 +12,14 @@ import profile from "./profile.png";
 import search from "./search.png";
 
 function Header() {
-  const [inputValue, setInputValue] = useState("");
   const { user } = useContext(AuthContext);
   const { cartCount } = useContext(CartContext);
+  const { actions } = useContext(ProductContext);
   const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState("");
+
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
-  const { actions } = useContext(ProductContext);
 
   useEffect(() => {
     if (category) setInputValue("");
@@ -29,7 +30,7 @@ function Header() {
       <Logo to="/" />
       <CategoryLinks>
         {categories.map(({ name, displayText }, index) => (
-          <>
+          <React.Fragment key={`category_${index}`}>
             <CategoryLink
               $isActive={category === name}
               key={index}
@@ -46,11 +47,14 @@ function Header() {
               {displayText}
             </CategoryLink>
             {index !== 2 && (
-              <p className="inline p-0 text-xl tracking-[30px] text-[#3f3a3a] no-underline sm:text-center sm:text-base sm:leading-[50px] sm:tracking-normal sm:text-[#828282]">
+              <p
+                key={`p_${index}`}
+                className="inline p-0 text-xl tracking-[30px] text-[#3f3a3a] no-underline sm:text-center sm:text-base sm:leading-[50px] sm:tracking-normal sm:text-[#828282]"
+              >
                 |
               </p>
             )}
-          </>
+          </React.Fragment>
         ))}
       </CategoryLinks>
       <SearchInput
