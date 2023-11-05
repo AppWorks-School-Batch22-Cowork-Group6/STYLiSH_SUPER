@@ -8,10 +8,10 @@ const ProductList = () => {
                 <li className="flex">
                     <img src={ productImg } alt="" className="w-20 xl:w-28 object-cover" />
                     <div className="flex flex-1 xl:flex-col ml-4">
-                        <p className="mt-0 mb-8 mr-10 text-lg">前開衩扭結洋裝</p>
-                        <p className="hidden xl:mb-14 tracking-widest">TWD.799</p>
+                        <p className="mt-0 mb-8 mr-10 xl:text-lg leading-none">前開衩扭結洋裝</p>
+                        <p className="hidden xl:block xl:mb-14 tracking-widest">TWD.799</p>
                     </div>
-                    <div className="flex flex-col xl:hidden">
+                    <div className="flex flex-col">
                         <p className="xl:hidden tracking-widest">TWD.799</p>
                         <Link to="/live" className="mt-auto">
                             <button className="border border-gray-500 bg-black text-white rounded-md px-4 py-2 w-28">
@@ -23,10 +23,10 @@ const ProductList = () => {
                 <li className="flex">
                     <img src={ productImg } alt="" className="w-20 xl:w-28 object-cover" />
                     <div className="flex flex-1 xl:flex-col ml-4">
-                        <p className="mt-0 mb-8 text-lg">前開衩扭結洋裝</p>
-                        <p className="hidden xl:mb-14 tracking-widest">TWD.799</p>
+                        <p className="mt-0 mb-8 xl:text-lg leading-none">前開衩扭結洋裝</p>
+                        <p className="hidden xl:block xl:mb-14 tracking-widest">TWD.799</p>
                     </div>
-                    <div className="flex flex-col xl:hidden">
+                    <div className="flex flex-col">
                         <p className="xl:hidden tracking-widest">TWD.799</p>
                         <Link to="/live" className="mt-auto">
                             <button className="border border-gray-500 bg-black text-white rounded-md px-4 py-2 w-28">
@@ -38,10 +38,10 @@ const ProductList = () => {
                 <li className="flex">
                     <img src={ productImg } alt="" className="w-20 xl:w-28 object-cover" />
                     <div className="flex flex-1 xl:flex-col ml-4">
-                        <p className="mt-0 mb-8 text-lg">前開衩扭結洋裝</p>
-                        <p className="hidden xl:mb-14 tracking-widest">TWD.799</p>
+                        <p className="mt-0 mb-8 xl:text-lg leading-none">前開衩扭結洋裝</p>
+                        <p className="hidden xl:block xl:mb-14 tracking-widest">TWD.799</p>
                     </div>
-                    <div className="flex flex-col xl:hidden">
+                    <div className="flex flex-col">
                         <p className="xl:hidden tracking-widest">TWD.799</p>
                         <Link to="/live" className="mt-auto">
                             <button className="border border-gray-500 bg-black text-white rounded-md px-4 py-2 w-28">
