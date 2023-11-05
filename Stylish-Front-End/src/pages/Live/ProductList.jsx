@@ -2,7 +2,7 @@ import productImg from "../Home/product-main.png";
 import { Link } from "react-router-dom";
 const ProductList = () => {
     return (
-        <div className="row-start-2 px-10 xl:px-0 mt-6xl:m-0 xl:row-start-1 xl:col-start-2">
+        <div className="row-start-2 px-8 xl:px-0 mt-6xl:m-0 xl:row-start-1 xl:col-start-2">
             <h3 className="text-2xl xl:text-3xl mb-6 xl:mb-3">熱門商品</h3>
             <ul className="flex flex-col gap-5">
                 <li className="flex">
@@ -12,7 +12,7 @@ const ProductList = () => {
                         <p className="hidden xl:block xl:mb-14 xl:text-xl tracking-widest">TWD.799</p>
                     </div>
                     <div className="flex flex-col">
-                        <p className="xl:hidden tracking-widest">TWD.799</p>
+                        <p className="xl:hidden tracking-widest ml-4">TWD.799</p>
                         <Link to="/live" className="mt-auto">
                             <button className="border border-gray-500 bg-black text-white rounded-md px-4 py-2 xl:px-2 xl:py-4 w-28 xl:text-xl">
                                 前往購買
@@ -27,7 +27,7 @@ const ProductList = () => {
                         <p className="hidden xl:block xl:mb-14 tracking-widest xl:text-xl">TWD.799</p>
                     </div>
                     <div className="flex flex-col">
-                        <p className="xl:hidden tracking-widest">TWD.799</p>
+                        <p className="xl:hidden tracking-widest ml-4">TWD.799</p>
                         <Link to="/live" className="mt-auto">
                             <button className="border border-gray-500 bg-black text-white rounded-md px-4 py-2 w-28 xl:px-2 xl:py-4 xl:text-xl">
                                 前往購買
@@ -42,7 +42,7 @@ const ProductList = () => {
                         <p className="hidden xl:block xl:mb-14 tracking-widest xl:text-xl">TWD.799</p>
                     </div>
                     <div className="flex flex-col">
-                        <p className="xl:hidden tracking-widest">TWD.799</p>
+                        <p className="xl:hidden tracking-widest ml-4">TWD.799</p>
                         <Link to="/live" className="mt-auto">
                             <button className="border border-gray-500 bg-black text-white rounded-md px-4 py-2 xl:px-2 xl:py-4 w-28 xl:text-xl">
                                 前往購買
