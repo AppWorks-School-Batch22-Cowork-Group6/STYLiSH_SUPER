@@ -1,8 +1,9 @@
 import Wrapper from "./Wrapper";
+import Video from "./Video";
 const Live = () => {
     return (
         <Wrapper>
-            <div>Live</div>
+            <Video />
         </Wrapper>
     );
 };
