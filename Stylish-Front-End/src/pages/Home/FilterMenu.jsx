@@ -83,7 +83,10 @@ const FilterMenu = () => {
                   "bg-button": false,
                   "border-button border border-solid": true,
                 })}
-                onClick={() => console.log()}
+                onClick={() => {
+                  actions.setActiveColorFilterButton(null);
+                  actions.setActiveSizeFilterButton(null);
+                }}
               >
                 重設條件
               </button>
@@ -93,7 +96,11 @@ const FilterMenu = () => {
                   "bg-button": true,
                   "border border-solid border-gray-400": false,
                 })}
-                onClick={() => console.log()}
+                onClick={() => {
+                  actions.setIsMobileFilterShow(false);
+                  actions.setActiveColorFilterButton(null);
+                  actions.setActiveSizeFilterButton(null);
+                }}
               >
                 送出條件
               </button>
