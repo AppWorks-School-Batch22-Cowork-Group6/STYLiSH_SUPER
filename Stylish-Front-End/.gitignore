@@ -26,5 +26,3 @@ yarn-error.log*
 /.firebase
 
 *.svg
-
-firebase.json
