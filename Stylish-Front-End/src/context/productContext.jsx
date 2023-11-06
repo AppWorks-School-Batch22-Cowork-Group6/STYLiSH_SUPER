@@ -63,6 +63,10 @@ export const ProductProvider = ({ children }) => {
     _setActiveSortButton(2);
     _setCurrentPriceOption(num);
   }
+  function resetSortOptions() {
+    _setActiveSortButton(null);
+    _setCurrentPriceOption(0);
+  }
   const value = {
     currentPriceOption,
     activeSortButton,
@@ -76,6 +80,7 @@ export const ProductProvider = ({ children }) => {
       sortByPrice,
       sortByRecommend,
       sortByReleaseTime,
+      resetSortOptions,
     },
   };
   return (

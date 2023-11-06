@@ -44,6 +44,7 @@ function Header() {
                 actions.setActiveSortButton(null);
                 actions.setActiveColorFilterButton(null);
                 actions.setActiveSizeFilterButton(null);
+                actions.resetSortOptions();
               }}
             >
               {displayText}
