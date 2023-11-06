@@ -13,7 +13,6 @@ const SortMenu = () => {
     useContext(ProductContext);
 
   const priceIconOptions = [
-    "M464 208L352 96 240 208M352 113.13V416M48 304l112 112 112-112M160 398V96",
     "M112 244l144-144 144 144M256 120v292",
     "M112 268l144 144 144-144M256 392V100",
   ];
@@ -30,7 +29,7 @@ const SortMenu = () => {
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="32"
-          d={ priceIconOptions[currentPriceOption] }
+          d={priceIconOptions[currentPriceOption]}
         />
       </svg>
     );
@@ -68,7 +67,8 @@ const SortMenu = () => {
       "flex flex-row items-center justify-center align-middle sm:mr-auto":
         id === 2,
       "border border-solid border-gray-400": !(activeSortButton === id),
-      "bg-button": activeSortButton === id || (id === 0 && activeSortButton === null),
+      "bg-button":
+        activeSortButton === id || (id === 0 && activeSortButton === null),
     });
   };
 
@@ -79,27 +79,27 @@ const SortMenu = () => {
           排序選項：
         </h1>
         <button
-          className={ sortingButtonsClass(0) }
-          onClick={ () => actions.sortByRecommend(category) }
+          className={sortingButtonsClass(0)}
+          onClick={() => actions.sortByRecommend(category)}
         >
           推薦排序
         </button>
         <button
-          className={ sortingButtonsClass(1) }
-          onClick={ () => actions.sortByReleaseTime(category) }
+          className={sortingButtonsClass(1)}
+          onClick={() => actions.sortByReleaseTime(category)}
         >
           新上市
         </button>
         <button
-          className={ sortingButtonsClass(2) }
-          onClick={ () => handlePriceSortClick() }
+          className={sortingButtonsClass(2)}
+          onClick={() => handlePriceSortClick()}
         >
-          <p>{ priceTextOptions[currentPriceOption] }</p>
+          <p>{priceTextOptions[currentPriceOption]}</p>
           <PriceIcon />
         </button>
         <button
           className="cursor-pointer"
-          onClick={ () => actions.setIsMobileFilterShow(!isMobileFilterShow) }
+          onClick={() => actions.setIsMobileFilterShow(!isMobileFilterShow)}
         >
           <FilterIcon />
         </button>

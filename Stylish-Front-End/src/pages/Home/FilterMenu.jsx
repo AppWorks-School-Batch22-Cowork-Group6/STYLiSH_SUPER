@@ -48,7 +48,10 @@ const FilterMenu = () => {
                         "border border-solid border-gray-400":
                           index !== activeColorFilterButton,
                       })}
-                      onClick={() => actions.setActiveColorFilterButton(index)}
+                      onClick={() => {
+                        actions.setActiveColorFilterButton(index);
+                        actions.filterByColor(color.name, category);
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +147,10 @@ const FilterMenu = () => {
                     "border border-solid border-gray-400":
                       index !== activeColorFilterButton,
                   })}
-                  onClick={() => actions.setActiveColorFilterButton(index)}
+                  onClick={() => {
+                    actions.setActiveColorFilterButton(index);
+                    actions.filterByColor(color.name, category);
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
