@@ -80,20 +80,20 @@ const SortMenu = () => {
           排序選項：
         </h1>
         <button
-          className={sortingButtonsClass(0)}
-          onClick={() => actions.setActiveSortButton(0)}
+          className={ sortingButtonsClass(0) }
+          onClick={ () => actions.setActiveSortButton(0) }
         >
           推薦排序
         </button>
         <button
-          className={sortingButtonsClass(1)}
-          onClick={() => actions.setActiveSortButton(1)}
+          className={ sortingButtonsClass(1) }
+          onClick={ () => actions.setActiveSortButton(1) }
         >
           新上市
         </button>
         <button
-          className={sortingButtonsClass(2)}
-          onClick={(e) => handlePriceSortClick(e, 2)}
+          className={ sortingButtonsClass(2) }
+          onClick={ (e) => handlePriceSortClick(e, 2) }
         >
           <p>{priceTextOptions[currentPriceOption]}</p>
           <PriceIcon />
