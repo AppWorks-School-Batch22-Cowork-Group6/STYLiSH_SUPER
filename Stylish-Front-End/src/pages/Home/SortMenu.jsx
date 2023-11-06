@@ -7,7 +7,7 @@ import ProductContext from "../../context/productContext";
 const SortMenu = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category") || "all";
-  const priceTextOptions = ["價格排序", "價格低至高", "價格高到低"];
+  const priceTextOptions = ["價格低至高", "價格高到低"];
 
   const { actions, activeSortButton, currentPriceOption, isMobileFilterShow } =
     useContext(ProductContext);
@@ -54,13 +54,12 @@ const SortMenu = () => {
     );
   };
 
-  const handlePriceSortClick = (e, buttonId) => {
+  const handlePriceSortClick = () => {
     let num = currentPriceOption + 1;
-    if (num === 3) {
+    if (num === 2) {
       num = 0;
     }
-    actions.setCurrentPriceOption(num);
-    actions.setActiveSortButton(buttonId);
+    actions.sortByPrice(num);
   };
 
   const sortingButtonsClass = (id) => {
@@ -69,7 +68,7 @@ const SortMenu = () => {
       "flex flex-row items-center justify-center align-middle sm:mr-auto":
         id === 2,
       "border border-solid border-gray-400": !(activeSortButton === id),
-      "bg-button": activeSortButton === id,
+      "bg-button": activeSortButton === id || (id === 0 && activeSortButton === null),
     });
   };
 
@@ -80,20 +79,20 @@ const SortMenu = () => {
           排序選項：
         </h1>
         <button
-          className={sortingButtonsClass(0)}
-          onClick={() => actions.setActiveSortButton(0)}
+          className={ sortingButtonsClass(0) }
+          onClick={ () => actions.sortByRecommend(category) }
         >
           推薦排序
         </button>
         <button
-          className={sortingButtonsClass(1)}
-          onClick={() => actions.setActiveSortButton(1)}
+          className={ sortingButtonsClass(1) }
+          onClick={ () => actions.sortByReleaseTime() }
         >
           新上市
         </button>
         <button
-          className={sortingButtonsClass(2)}
-          onClick={(e) => handlePriceSortClick(e, 2)}
+          className={ sortingButtonsClass(2) }
+          onClick={ () => handlePriceSortClick() }
         >
           <p>{priceTextOptions[currentPriceOption]}</p>
           <PriceIcon />

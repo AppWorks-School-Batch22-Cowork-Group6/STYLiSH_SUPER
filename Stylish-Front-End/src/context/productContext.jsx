@@ -2,9 +2,15 @@ import { createContext, useEffect, useState } from "react";
 
 const ProductContext = createContext(null);
 
+const testApiEndpoint = "https://www.joazen.website/api/products/search";
+
+const sortingApis = {
+  byRecommend: (category) => `${testApiEndpoint}?category=${category}`,
+  byReleaseTime: `${testApiEndpoint}?sorting=newest`,
+  byPrice: (sortOrder) => `${testApiEndpoint}?sorting=${sortOrder}`,
+};
+
 export const ProductProvider = ({ children }) => {
-  const [currentPriceOption, setCurrentPriceOption] = useState(0);
-  const [activeSortButton, setActiveSortButton] = useState(null);
   const [isMobileFilterShow, setIsMobileFilterShow] = useState(false);
   const [activeColorFilterButton, setActiveColorFilterButton] = useState(null);
   const [activeSizeFilterButton, setActiveSizeFilterButton] = useState(null);
@@ -53,6 +59,35 @@ export const ProductProvider = ({ children }) => {
     };
   }, []);
 
+  const [currentPriceOption, _setCurrentPriceOption] = useState(0);
+  const [activeSortButton, _setActiveSortButton] = useState(null);
+  async function sortByRecommend(category) {
+    _setActiveSortButton(0);
+    currentPriceOption !== 0 && _setCurrentPriceOption(0);
+    if (category === "all") return;
+    const apiEndpoint = sortingApis.byRecommend(category);
+    console.log("apiEndpoint: ", apiEndpoint);
+    await fetch(apiEndpoint);
+  }
+  async function sortByReleaseTime() {
+    _setActiveSortButton(1);
+    currentPriceOption !== 0 && _setCurrentPriceOption(0);
+    const apiEndpoint = sortingApis.byReleaseTime;
+    console.log("apiEndpoint: ", apiEndpoint);
+    await fetch(apiEndpoint);
+  }
+  async function sortByPrice(num) {
+    _setActiveSortButton(2);
+    _setCurrentPriceOption(num);
+    const sortOrder = ["price_desc", "price_asc"][num];
+    const apiEndpoint = sortingApis.byPrice(sortOrder);
+    console.log("apiEndpoint: ", apiEndpoint);
+    await fetch(apiEndpoint);
+  }
+  function resetSortOptions() {
+    _setActiveSortButton(null);
+    _setCurrentPriceOption(0);
+  }
   const value = {
     currentPriceOption,
     activeSortButton,
@@ -63,15 +98,17 @@ export const ProductProvider = ({ children }) => {
     isWide,
     activeSizeFilterButton,
     actions: {
-      setActiveSizeFilterButton,
-      setCurrentPriceOption,
-      setActiveSortButton,
-      setIsMobileFilterShow,
+      sortByPrice,
+      sortByRecommend,
+      sortByReleaseTime,
+      resetSortOptions,
       setActiveColorFilterButton,
+      setActiveSizeFilterButton,
+      setIsMobileFilterShow
     },
   };
   return (
-    <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
+    <ProductContext.Provider value={ value }>{ children }</ProductContext.Provider>
   );
 };
 
