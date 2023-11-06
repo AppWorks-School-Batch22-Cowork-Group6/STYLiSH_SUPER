@@ -3,8 +3,6 @@ import { createContext, useEffect, useState } from "react";
 const ProductContext = createContext(null);
 
 export const ProductProvider = ({ children }) => {
-  const [currentPriceOption, setCurrentPriceOption] = useState(0);
-  const [activeSortButton, setActiveSortButton] = useState(null);
   const [isMobileFilterShow, setIsMobileFilterShow] = useState(false);
   const [activeColorFilterButton, setActiveColorFilterButton] = useState(null);
   const [activeSizeFilterButton, setActiveSizeFilterButton] = useState(null);
@@ -53,6 +51,18 @@ export const ProductProvider = ({ children }) => {
     };
   }, []);
 
+  const [currentPriceOption, _setCurrentPriceOption] = useState(0);
+  const [activeSortButton, _setActiveSortButton] = useState(null);
+  function sortByRecommend() {
+    _setActiveSortButton(0);
+  }
+  function sortByReleaseTime() {
+    _setActiveSortButton(1);
+  }
+  function sortByPrice(num) {
+    _setActiveSortButton(2);
+    _setCurrentPriceOption(num);
+  }
   const value = {
     currentPriceOption,
     activeSortButton,
@@ -63,15 +73,13 @@ export const ProductProvider = ({ children }) => {
     isWide,
     activeSizeFilterButton,
     actions: {
-      setActiveSizeFilterButton,
-      setCurrentPriceOption,
-      setActiveSortButton,
-      setIsMobileFilterShow,
-      setActiveColorFilterButton,
+      sortByPrice,
+      sortByRecommend,
+      sortByReleaseTime,
     },
   };
   return (
-    <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
+    <ProductContext.Provider value={ value }>{ children }</ProductContext.Provider>
   );
 };
 

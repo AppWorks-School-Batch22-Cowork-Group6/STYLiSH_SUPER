@@ -59,7 +59,7 @@ const SortMenu = () => {
     if (num === 3) {
       num = 0;
     }
-    actions.setCurrentPriceOption(num);
+    actions.sortByPrice(num);
     actions.setActiveSortButton(buttonId);
   };
 
@@ -81,13 +81,13 @@ const SortMenu = () => {
         </h1>
         <button
           className={ sortingButtonsClass(0) }
-          onClick={ () => actions.setActiveSortButton(0) }
+          onClick={ () => actions.sortByRecommend() }
         >
           推薦排序
         </button>
         <button
           className={ sortingButtonsClass(1) }
-          onClick={ () => actions.setActiveSortButton(1) }
+          onClick={ () => actions.sortByReleaseTime() }
         >
           新上市
         </button>
