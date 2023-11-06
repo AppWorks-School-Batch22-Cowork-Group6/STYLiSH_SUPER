@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ProductContext = createContext(null);
 
@@ -15,6 +15,7 @@ export const ProductProvider = ({ children }) => {
   const [isMobileFilterShow, setIsMobileFilterShow] = useState(false);
   const [activeColorFilterButton, setActiveColorFilterButton] = useState(null);
   const [activeSizeFilterButton, setActiveSizeFilterButton] = useState(null);
+  const navigate = useNavigate();
 
   const colors = [
     {
@@ -67,23 +68,26 @@ export const ProductProvider = ({ children }) => {
     currentPriceOption !== 0 && _setCurrentPriceOption(0);
     if (category === "all") return;
     const apiEndpoint = sortingApis.byRecommend(category);
-    console.log("apiEndpoint: ", apiEndpoint);
-    await fetch(apiEndpoint);
+    // console.log("apiEndpoint: ", apiEndpoint);
+    // await fetch(apiEndpoint);
+    navigate(`/?category=${category}&sorting=${category}`);
   }
-  async function sortByReleaseTime() {
+  async function sortByReleaseTime(category) {
     _setActiveSortButton(1);
     currentPriceOption !== 0 && _setCurrentPriceOption(0);
     const apiEndpoint = sortingApis.byReleaseTime;
-    console.log("apiEndpoint: ", apiEndpoint);
-    await fetch(apiEndpoint);
+    // console.log("apiEndpoint: ", apiEndpoint);
+    // await fetch(apiEndpoint);
+    navigate(`/?category=${category}&sorting=newest`);
   }
-  async function sortByPrice(num) {
+  async function sortByPrice(num, category) {
     _setActiveSortButton(2);
     _setCurrentPriceOption(num);
     const sortOrder = ["price_desc", "price_asc"][num];
     const apiEndpoint = sortingApis.byPrice(sortOrder);
-    console.log("apiEndpoint: ", apiEndpoint);
-    await fetch(apiEndpoint);
+    // console.log("apiEndpoint: ", apiEndpoint);
+    // await fetch(apiEndpoint);
+    navigate(`/?category=${category}&sorting=${sortOrder}`);
   }
   function resetSortOptions() {
     _setActiveSortButton(null);
