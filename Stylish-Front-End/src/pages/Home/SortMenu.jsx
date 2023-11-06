@@ -59,7 +59,7 @@ const SortMenu = () => {
     if (num === 3) {
       num = 0;
     }
-    actions.sortByPrice(num);
+    actions.sortByPrice(num, category);
   };
 
   const sortingButtonsClass = (id) => {
@@ -80,7 +80,7 @@ const SortMenu = () => {
         </h1>
         <button
           className={ sortingButtonsClass(0) }
-          onClick={ () => actions.sortByRecommend() }
+          onClick={ () => actions.sortByRecommend(category) }
         >
           推薦排序
         </button>

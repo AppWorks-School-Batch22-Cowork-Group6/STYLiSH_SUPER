@@ -2,6 +2,14 @@ import { createContext, useEffect, useState } from "react";
 
 const ProductContext = createContext(null);
 
+const testApiEndpoint = "https://www.joazen.website/api/products/search";
+
+const sortingApis = {
+  byRecommend: (category) => `${testApiEndpoint}?category=${category}`,
+  byReleaseTime: `${testApiEndpoint}?sorting=newest`,
+  byPrice: (sortOrder) => `${testApiEndpoint}?sorting=${sortOrder}`,
+};
+
 export const ProductProvider = ({ children }) => {
   const [isMobileFilterShow, setIsMobileFilterShow] = useState(false);
   const [activeColorFilterButton, setActiveColorFilterButton] = useState(null);
@@ -53,15 +61,25 @@ export const ProductProvider = ({ children }) => {
 
   const [currentPriceOption, _setCurrentPriceOption] = useState(0);
   const [activeSortButton, _setActiveSortButton] = useState(null);
-  function sortByRecommend() {
+  async function sortByRecommend(category) {
     _setActiveSortButton(0);
+    if (category === "all") return;
+    const apiEndpoint = sortingApis.byRecommend(category);
+    console.log("apiEndpoint: ", apiEndpoint);
   }
-  function sortByReleaseTime() {
+  async function sortByReleaseTime() {
     _setActiveSortButton(1);
+    const apiEndpoint = sortingApis.byReleaseTime;
+    console.log("apiEndpoint: ", apiEndpoint);
   }
-  function sortByPrice(num) {
+  async function sortByPrice(num, category) {
     _setActiveSortButton(2);
     _setCurrentPriceOption(num);
+    const sortOrder = ["", "price_asc", "price_desc"][num];
+    const apiEndpoint = num === 0 ?
+      sortingApis.byRecommend(category) :
+      sortingApis.byPrice(sortOrder);
+    console.log("apiEndpoint: ", apiEndpoint);
   }
   function resetSortOptions() {
     _setActiveSortButton(null);
