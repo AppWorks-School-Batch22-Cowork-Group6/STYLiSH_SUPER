@@ -54,13 +54,12 @@ const SortMenu = () => {
     );
   };
 
-  const handlePriceSortClick = (e, buttonId) => {
+  const handlePriceSortClick = () => {
     let num = currentPriceOption + 1;
     if (num === 3) {
       num = 0;
     }
     actions.sortByPrice(num);
-    actions.setActiveSortButton(buttonId);
   };
 
   const sortingButtonsClass = (id) => {
@@ -93,7 +92,7 @@ const SortMenu = () => {
         </button>
         <button
           className={ sortingButtonsClass(2) }
-          onClick={ (e) => handlePriceSortClick(e, 2) }
+          onClick={ () => handlePriceSortClick() }
         >
           <p>{priceTextOptions[currentPriceOption]}</p>
           <PriceIcon />
