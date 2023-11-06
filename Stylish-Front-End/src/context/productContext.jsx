@@ -151,11 +151,19 @@ export const ProductProvider = ({ children }) => {
   }
   async function filterByColor(colorName, category) {
     const endpoint = filteringApis.byColor(colorName, category);
+    // console.log("endpoint in filterbycolor", endpoint);
+    const searchParameters = endpoint.substring(endpoint.indexOf("?"));
+    // console.log(searchParameters);
+    navigate(`/${searchParameters}`);
     await fetch(endpoint);
   }
 
   async function filterBySize(size, category) {
     const endpoint = filteringApis.bySize(size, category);
+    // console.log("endpoint in filterbysize", endpoint);
+    const searchParameters = endpoint.substring(endpoint.indexOf("?"));
+    // console.log(searchParameters);
+    navigate(`/${searchParameters}`);
     await fetch(endpoint);
   }
 
