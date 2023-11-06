@@ -35,7 +35,6 @@ const FilterMenu = () => {
               </div>
               <div className="mt-2 grid grid-cols-3 grid-rows-3 gap-x-2 gap-y-2">
                 {colors.map((color, index) => {
-                  console.log(color.code);
                   const svgClass = `h-3 w-3 stroke-default fill-[var(--color)]`;
                   return (
                     <button
@@ -132,17 +131,35 @@ const FilterMenu = () => {
           <div className="flex flex-row items-center gap-9 px-6">
             <h2 className="mr-[43px] text-[22px] text-default">顏色：</h2>
             {colors.map((color, index) => {
+              const svgClass = `h-4 w-4 stroke-default fill-[var(--color)]`;
               return (
                 <button
+                  style={{
+                    "--color": "#" + color.code,
+                  }}
                   key={`wideColorbtn-${index}`}
                   className={classNames({
-                    "h-7 w-[102px] cursor-pointer rounded-lg text-base text-default": true,
+                    "flex h-7 w-[102px] cursor-pointer flex-row items-center justify-center gap-1 rounded-lg text-base text-default": true,
                     "bg-button": index === activeColorFilterButton,
                     "border border-solid border-gray-400":
                       index !== activeColorFilterButton,
                   })}
                   onClick={() => actions.setActiveColorFilterButton(index)}
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={svgClass}
+                    viewBox="0 0 512 512"
+                  >
+                    <circle
+                      cx="256"
+                      cy="256"
+                      r="192"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="32"
+                    />
+                  </svg>
                   {color.name}
                 </button>
               );
