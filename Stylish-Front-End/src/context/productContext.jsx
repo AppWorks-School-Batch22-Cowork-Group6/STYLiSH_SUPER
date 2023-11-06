@@ -32,14 +32,14 @@ export const ProductProvider = ({ children }) => {
 
   const filteringApis = {
     byColor: (colorName, category) => {
-      console.log("urlToFetch: ", urlToFetch);
+      console.log("by color urlToFetch: ", urlToFetch);
       let newUrlToFetch = urlToFetch;
       if (urlToFetch.includes("category=")) {
-        console.log("yes");
+        console.log("there is category in query");
       } else {
         newUrlToFetch = newUrlToFetch + `?category=${category}`;
       }
-      // 檢查是否已經包含了 "&color="
+
       if (newUrlToFetch.indexOf("&color=") !== -1) {
         newUrlToFetch = newUrlToFetch.replace(
           /&color=[^&]*/,
@@ -48,6 +48,25 @@ export const ProductProvider = ({ children }) => {
       } else {
         newUrlToFetch += `&color=${colorName}`;
       }
+
+      setUrlToFetch(newUrlToFetch);
+      return newUrlToFetch;
+    },
+    bySize: (size, category) => {
+      console.log("by size urlToFetch: ", urlToFetch);
+      let newUrlToFetch = urlToFetch;
+      if (urlToFetch.includes("category=")) {
+        console.log("there is category in query");
+      } else {
+        newUrlToFetch = newUrlToFetch + `?category=${category}`;
+      }
+
+      if (newUrlToFetch.indexOf("&size=") !== -1) {
+        newUrlToFetch = newUrlToFetch.replace(/&size=[^&]*/, `&size=${size}`);
+      } else {
+        newUrlToFetch += `&size=${size}`;
+      }
+
       setUrlToFetch(newUrlToFetch);
       return newUrlToFetch;
     },
@@ -124,7 +143,7 @@ export const ProductProvider = ({ children }) => {
   async function sortByPrice(num, category) {
     _setActiveSortButton(2);
     _setCurrentPriceOption(num);
-    const sortOrder = ["price_desc", "price_asc"][num];
+    const sortOrder = ["price_asc", "price_desc"][num];
     const apiEndpoint = sortingApis.byPrice(sortOrder, category);
     setUrlToFetch(
       `https://www.joazen.website/api/products/search?category=${category}&sorting=${sortOrder}`,
@@ -139,9 +158,16 @@ export const ProductProvider = ({ children }) => {
   }
   async function filterByColor(colorName, category) {
     const endpoint = filteringApis.byColor(colorName, category);
-    console.log("Fetching: ", endpoint);
+    console.log("Color Fetching: ", endpoint);
     await fetch(endpoint);
   }
+
+  async function filterBySize(size, category) {
+    const endpoint = filteringApis.bySize(size, category);
+    console.log("Size Fetching: ", endpoint);
+    await fetch(endpoint);
+  }
+
   const value = {
     currentPriceOption,
     activeSortButton,
@@ -160,6 +186,7 @@ export const ProductProvider = ({ children }) => {
       setActiveSizeFilterButton,
       setIsMobileFilterShow,
       filterByColor,
+      filterBySize,
       setUrlToFetch,
     },
   };
