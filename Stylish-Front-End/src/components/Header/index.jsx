@@ -42,6 +42,8 @@ function Header() {
                 navigate(`/?category=${name}`);
                 actions.setCurrentPriceOption(0);
                 actions.setActiveSortButton(null);
+                actions.setActiveColorFilterButton(null);
+                actions.setActiveSizeFilterButton(null);
               }}
             >
               {displayText}
