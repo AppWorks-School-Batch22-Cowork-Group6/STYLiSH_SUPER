@@ -7,8 +7,9 @@ import ProductContext from "../../context/productContext";
 const SortMenu = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category") || "all";
+  const priceTextOptions = ["價格排序", "價格低至高", "價格高到低"];
 
-  const { actions, activeSortButton, currentPriceOption } =
+  const { actions, activeSortButton, currentPriceOption, isMobileFilterShow } =
     useContext(ProductContext);
 
   const priceIconOptions = [
@@ -17,7 +18,41 @@ const SortMenu = () => {
     "M112 268l144 144 144-144M256 392V100",
   ];
 
-  const priceTextOptions = ["價格排序", "價格低至高", "價格高到低"];
+  const PriceIcon = () => {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+        className="sortIcon h-5 w-5 stroke-default pt-[1px] sm:h-[10px] sm:w-[10px]"
+      >
+        <path
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="32"
+          d={priceIconOptions[currentPriceOption]}
+        />
+      </svg>
+    );
+  };
+
+  const FilterIcon = () => {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+        className="filterIcon cursor-pointer stroke-default sm:h-5 sm:w-5 lg:hidden"
+      >
+        <path
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="32"
+          d="M32 144h448M112 256h288M208 368h96"
+        />
+      </svg>
+    );
+  };
 
   const handlePriceSortClick = (e, buttonId) => {
     let num = currentPriceOption + 1;
@@ -34,13 +69,13 @@ const SortMenu = () => {
       "flex flex-row items-center justify-center align-middle sm:mr-auto":
         id === 2,
       "border border-solid border-gray-400": !(activeSortButton === id),
-      "bg-[#f4d2b5]": activeSortButton === id,
+      "bg-button": activeSortButton === id,
     });
   };
 
   return (
     category !== "all" && (
-      <div className="sm: mx-auto mt-8 flex h-20 w-[1160px] flex-row items-center justify-start gap-9 rounded-xl bg-gray-100 sm:mx-6 sm:-mb-[11px] sm:mt-1 sm:h-10 sm:w-auto sm:justify-start sm:gap-3 sm:bg-transparent">
+      <div className="mx-auto mt-8 flex h-20 w-[1160px] flex-row items-center justify-start gap-9 rounded-xl bg-gray-100 sm:mx-6 sm:-mb-[11px] sm:mt-1 sm:h-10 sm:w-auto sm:justify-start sm:gap-3 sm:bg-transparent">
         <h1 className="ml-6 text-[22px] text-default sm:ml-0 sm:hidden sm:whitespace-nowrap sm:text-xs">
           排序選項：
         </h1>
@@ -61,33 +96,14 @@ const SortMenu = () => {
           onClick={(e) => handlePriceSortClick(e, 2)}
         >
           <p>{priceTextOptions[currentPriceOption]}</p>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            className="sortIcon h-5 w-5 stroke-default pt-[1px] sm:h-[10px] sm:w-[10px]"
-          >
-            <path
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="32"
-              d={priceIconOptions[currentPriceOption]}
-            />
-          </svg>
+          <PriceIcon />
         </button>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          className="filterIcon cursor-pointer stroke-default sm:h-5 sm:w-5 lg:hidden"
+        <button
+          className="cursor-pointer"
+          onClick={() => actions.setIsMobileFilterShow(!isMobileFilterShow)}
         >
-          <path
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="32"
-            d="M32 144h448M112 256h288M208 368h96"
-          />
-        </svg>
+          <FilterIcon />
+        </button>
       </div>
     )
   );

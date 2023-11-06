@@ -106,6 +106,7 @@ const Wrapper = styled.div`
   padding: 32px 0 46px;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
 
   @media screen and (max-width: 1279px) {
     padding: 15px 21px 6px;
