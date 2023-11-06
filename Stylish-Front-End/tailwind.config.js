@@ -13,8 +13,6 @@ export default {
       colors: {
         default: "#3f3a3a",
         button: "#fcc89b",
-        lightgreen: "#ddffbb",
-        lightbrown: "#bb7744",
       },
     },
   },

@@ -30,7 +30,7 @@ const SortMenu = () => {
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="32"
-          d={priceIconOptions[currentPriceOption]}
+          d={ priceIconOptions[currentPriceOption] }
         />
       </svg>
     );
@@ -59,7 +59,7 @@ const SortMenu = () => {
     if (num === 2) {
       num = 0;
     }
-    actions.sortByPrice(num);
+    actions.sortByPrice(num, category);
   };
 
   const sortingButtonsClass = (id) => {
@@ -86,7 +86,7 @@ const SortMenu = () => {
         </button>
         <button
           className={ sortingButtonsClass(1) }
-          onClick={ () => actions.sortByReleaseTime() }
+          onClick={ () => actions.sortByReleaseTime(category) }
         >
           新上市
         </button>
@@ -94,12 +94,12 @@ const SortMenu = () => {
           className={ sortingButtonsClass(2) }
           onClick={ () => handlePriceSortClick() }
         >
-          <p>{priceTextOptions[currentPriceOption]}</p>
+          <p>{ priceTextOptions[currentPriceOption] }</p>
           <PriceIcon />
         </button>
         <button
           className="cursor-pointer"
-          onClick={() => actions.setIsMobileFilterShow(!isMobileFilterShow)}
+          onClick={ () => actions.setIsMobileFilterShow(!isMobileFilterShow) }
         >
           <FilterIcon />
         </button>
