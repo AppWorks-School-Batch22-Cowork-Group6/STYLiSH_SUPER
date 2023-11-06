@@ -102,6 +102,9 @@ export const ProductProvider = ({ children }) => {
       sortByRecommend,
       sortByReleaseTime,
       resetSortOptions,
+      setActiveColorFilterButton,
+      setActiveSizeFilterButton,
+      setIsMobileFilterShow
     },
   };
   return (

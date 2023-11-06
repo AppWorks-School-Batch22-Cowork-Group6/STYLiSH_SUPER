@@ -7,7 +7,7 @@ import ProductContext from "../../context/productContext";
 const SortMenu = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category") || "all";
-  const priceTextOptions = ["價格排序", "價格低至高", "價格高到低"];
+  const priceTextOptions = ["價格低至高", "價格高到低"];
 
   const { actions, activeSortButton, currentPriceOption, isMobileFilterShow } =
     useContext(ProductContext);
@@ -68,7 +68,7 @@ const SortMenu = () => {
       "flex flex-row items-center justify-center align-middle sm:mr-auto":
         id === 2,
       "border border-solid border-gray-400": !(activeSortButton === id),
-      "bg-button": activeSortButton === id,
+      "bg-button": activeSortButton === id || (id === 0 && activeSortButton === null),
     });
   };
 
