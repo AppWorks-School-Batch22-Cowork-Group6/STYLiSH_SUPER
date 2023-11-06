@@ -1,11 +1,11 @@
-const FB_SCRIPT_ID = 'facebook-jssdk';
-const FB_SCRIPT_SRC = 'https://connect.facebook.net/zh_TW/sdk.js';
+const FB_SCRIPT_ID = "facebook-jssdk";
+const FB_SCRIPT_SRC = "https://connect.facebook.net/zh_TW/sdk.js";
 
 function insertFBScript() {
   if (document.getElementById(FB_SCRIPT_ID)) return;
-  const fbScriptTag = document.createElement('script');
-  fbScriptTag.setAttribute('id', FB_SCRIPT_ID);
-  fbScriptTag.setAttribute('src', FB_SCRIPT_SRC);
+  const fbScriptTag = document.createElement("script");
+  fbScriptTag.setAttribute("id", FB_SCRIPT_ID);
+  fbScriptTag.setAttribute("src", FB_SCRIPT_SRC);
   document.head.appendChild(fbScriptTag);
 }
 const fb = {
@@ -16,7 +16,7 @@ const fb = {
           appId: import.meta.env.VITE_FACEBOOK_ID,
           cookie: true,
           xfbml: true,
-          version: 'v10.0',
+          version: "v10.0",
         });
         resolve();
       };
@@ -35,8 +35,9 @@ const fb = {
       window.FB.login(
         (response) => {
           resolve(response);
+          console.log(response);
         },
-        { scope: 'public_profile,email' }
+        { scope: "public_profile,email" },
       );
     });
   },

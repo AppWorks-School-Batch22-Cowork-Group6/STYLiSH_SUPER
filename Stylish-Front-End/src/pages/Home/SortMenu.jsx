@@ -69,7 +69,7 @@ const SortMenu = () => {
       "flex flex-row items-center justify-center align-middle sm:mr-auto":
         id === 2,
       "border border-solid border-gray-400": !(activeSortButton === id),
-      "bg-[#f4d2b5]": activeSortButton === id,
+      "bg-[#cd874a94]": activeSortButton === id,
     });
   };
 
