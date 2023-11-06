@@ -1,13 +1,14 @@
 import { createContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 const ProductContext = createContext(null);
 
-const testApiEndpoint = "https://www.joazen.website/api/products/search";
+const testApiSearchEndpoint = "https://www.joazen.website/api/products/search";
 
 const sortingApis = {
-  byRecommend: (category) => `${testApiEndpoint}?category=${category}`,
-  byReleaseTime: `${testApiEndpoint}?sorting=newest`,
-  byPrice: (sortOrder) => `${testApiEndpoint}?sorting=${sortOrder}`,
+  byRecommend: (category) => `${testApiSearchEndpoint}?category=${category}`,
+  byReleaseTime: `${testApiSearchEndpoint}?sorting=newest`,
+  byPrice: (sortOrder) => `${testApiSearchEndpoint}?sorting=${sortOrder}`,
 };
 
 export const ProductProvider = ({ children }) => {
