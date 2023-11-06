@@ -56,10 +56,10 @@ const SortMenu = () => {
 
   const handlePriceSortClick = () => {
     let num = currentPriceOption + 1;
-    if (num === 3) {
+    if (num === 2) {
       num = 0;
     }
-    actions.sortByPrice(num, category);
+    actions.sortByPrice(num);
   };
 
   const sortingButtonsClass = (id) => {

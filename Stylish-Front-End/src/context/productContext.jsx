@@ -63,22 +63,22 @@ export const ProductProvider = ({ children }) => {
   const [activeSortButton, _setActiveSortButton] = useState(null);
   async function sortByRecommend(category) {
     _setActiveSortButton(0);
+    currentPriceOption !== 0 && _setCurrentPriceOption(0);
     if (category === "all") return;
     const apiEndpoint = sortingApis.byRecommend(category);
     console.log("apiEndpoint: ", apiEndpoint);
   }
   async function sortByReleaseTime() {
     _setActiveSortButton(1);
+    currentPriceOption !== 0 && _setCurrentPriceOption(0);
     const apiEndpoint = sortingApis.byReleaseTime;
     console.log("apiEndpoint: ", apiEndpoint);
   }
-  async function sortByPrice(num, category) {
+  async function sortByPrice(num) {
     _setActiveSortButton(2);
     _setCurrentPriceOption(num);
-    const sortOrder = ["", "price_asc", "price_desc"][num];
-    const apiEndpoint = num === 0 ?
-      sortingApis.byRecommend(category) :
-      sortingApis.byPrice(sortOrder);
+    const sortOrder = ["price_desc", "price_asc"][num];
+    const apiEndpoint = sortingApis.byPrice(sortOrder);
     console.log("apiEndpoint: ", apiEndpoint);
   }
   function resetSortOptions() {
