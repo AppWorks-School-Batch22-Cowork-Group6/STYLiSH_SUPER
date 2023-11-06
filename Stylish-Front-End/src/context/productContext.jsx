@@ -67,12 +67,14 @@ export const ProductProvider = ({ children }) => {
     if (category === "all") return;
     const apiEndpoint = sortingApis.byRecommend(category);
     console.log("apiEndpoint: ", apiEndpoint);
+    await fetch(apiEndpoint);
   }
   async function sortByReleaseTime() {
     _setActiveSortButton(1);
     currentPriceOption !== 0 && _setCurrentPriceOption(0);
     const apiEndpoint = sortingApis.byReleaseTime;
     console.log("apiEndpoint: ", apiEndpoint);
+    await fetch(apiEndpoint);
   }
   async function sortByPrice(num) {
     _setActiveSortButton(2);
@@ -80,6 +82,7 @@ export const ProductProvider = ({ children }) => {
     const sortOrder = ["price_desc", "price_asc"][num];
     const apiEndpoint = sortingApis.byPrice(sortOrder);
     console.log("apiEndpoint: ", apiEndpoint);
+    await fetch(apiEndpoint);
   }
   function resetSortOptions() {
     _setActiveSortButton(null);
