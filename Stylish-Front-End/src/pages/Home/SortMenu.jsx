@@ -80,19 +80,31 @@ const SortMenu = () => {
         </h1>
         <button
           className={sortingButtonsClass(0)}
-          onClick={() => actions.sortByRecommend(category)}
+          onClick={() => {
+            actions.setActiveColorFilterButton(null);
+            actions.setActiveSizeFilterButton(null);
+            actions.sortByRecommend(category);
+          }}
         >
           推薦排序
         </button>
         <button
           className={sortingButtonsClass(1)}
-          onClick={() => actions.sortByReleaseTime(category)}
+          onClick={() => {
+            actions.setActiveColorFilterButton(null);
+            actions.setActiveSizeFilterButton(null);
+            actions.sortByReleaseTime(category);
+          }}
         >
           新上市
         </button>
         <button
           className={sortingButtonsClass(2)}
-          onClick={() => handlePriceSortClick()}
+          onClick={() => {
+            actions.setActiveColorFilterButton(null);
+            actions.setActiveSizeFilterButton(null);
+            handlePriceSortClick();
+          }}
         >
           <p>{priceTextOptions[currentPriceOption]}</p>
           <PriceIcon />

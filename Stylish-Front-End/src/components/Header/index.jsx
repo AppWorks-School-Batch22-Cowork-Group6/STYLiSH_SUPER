@@ -40,6 +40,9 @@ function Header() {
                   behavior: "smooth",
                 });
                 navigate(`/?category=${name}`);
+                actions.setUrlToFetch(
+                  "https://www.joazen.website/api/products/search",
+                );
                 actions.setActiveColorFilterButton(null);
                 actions.setActiveSizeFilterButton(null);
                 actions.resetSortOptions();

@@ -32,7 +32,22 @@ export const ProductProvider = ({ children }) => {
 
   const filteringApis = {
     byColor: (colorName, category) => {
-      const newUrlToFetch = `${urlToFetch}?category=${category}&color=${colorName}`;
+      console.log("urlToFetch: ", urlToFetch);
+      let newUrlToFetch = urlToFetch;
+      if (urlToFetch.includes("category=")) {
+        console.log("yes");
+      } else {
+        newUrlToFetch = newUrlToFetch + `?category=${category}`;
+      }
+      // 檢查是否已經包含了 "&color="
+      if (newUrlToFetch.indexOf("&color=") !== -1) {
+        newUrlToFetch = newUrlToFetch.replace(
+          /&color=[^&]*/,
+          `&color=${colorName}`,
+        );
+      } else {
+        newUrlToFetch += `&color=${colorName}`;
+      }
       setUrlToFetch(newUrlToFetch);
       return newUrlToFetch;
     },
@@ -89,6 +104,9 @@ export const ProductProvider = ({ children }) => {
     currentPriceOption !== 0 && _setCurrentPriceOption(0);
     if (category === "all") return;
     const apiEndpoint = sortingApis.byRecommend(category);
+    setUrlToFetch(
+      `https://www.joazen.website/api/products/search?category=${category}&sorting=${category}`,
+    );
     navigate(`/?category=${category}&sorting=${category}`);
     await fetch(apiEndpoint);
   }
@@ -96,6 +114,9 @@ export const ProductProvider = ({ children }) => {
     _setActiveSortButton(1);
     currentPriceOption !== 0 && _setCurrentPriceOption(0);
     const apiEndpoint = sortingApis.byReleaseTime(category);
+    setUrlToFetch(
+      `https://www.joazen.website/api/products/search?category=${category}&sorting=newest`,
+    );
     navigate(`/?category=${category}&sorting=newest`);
     console.log("apiEndpoint: ", apiEndpoint);
     await fetch(apiEndpoint);
@@ -105,6 +126,9 @@ export const ProductProvider = ({ children }) => {
     _setCurrentPriceOption(num);
     const sortOrder = ["price_desc", "price_asc"][num];
     const apiEndpoint = sortingApis.byPrice(sortOrder, category);
+    setUrlToFetch(
+      `https://www.joazen.website/api/products/search?category=${category}&sorting=${sortOrder}`,
+    );
     console.log("apiEndpoint: ", apiEndpoint);
     navigate(`/?category=${category}&sorting=${sortOrder}`);
     await fetch(apiEndpoint);
@@ -114,8 +138,7 @@ export const ProductProvider = ({ children }) => {
     _setCurrentPriceOption(0);
   }
   async function filterByColor(colorName, category) {
-    const query = filteringApis.byColor(colorName, category);
-    const endpoint = `${testApiSearchEndpoint}${query}`;
+    const endpoint = filteringApis.byColor(colorName, category);
     console.log("Fetching: ", endpoint);
     await fetch(endpoint);
   }
@@ -137,6 +160,7 @@ export const ProductProvider = ({ children }) => {
       setActiveSizeFilterButton,
       setIsMobileFilterShow,
       filterByColor,
+      setUrlToFetch,
     },
   };
   return (
