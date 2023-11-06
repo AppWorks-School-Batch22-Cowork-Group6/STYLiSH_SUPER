@@ -35,17 +35,36 @@ const FilterMenu = () => {
               </div>
               <div className="mt-2 grid grid-cols-3 grid-rows-3 gap-x-2 gap-y-2">
                 {colors.map((color, index) => {
+                  console.log(color.code);
+                  const svgClass = `h-3 w-3 stroke-default fill-[var(--color)]`;
                   return (
                     <button
+                      style={{
+                        "--color": "#" + color.code,
+                      }}
                       key={`colorbtn-${index}`}
                       className={classNames({
-                        "h-5 w-[93px] cursor-pointer text-xs text-default": true,
+                        "flex h-5 w-[93px] cursor-pointer flex-row items-center justify-center gap-[2px] text-xs text-default": true,
                         "bg-button": index === activeColorFilterButton,
                         "border border-solid border-gray-400":
                           index !== activeColorFilterButton,
                       })}
                       onClick={() => actions.setActiveColorFilterButton(index)}
                     >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className={svgClass}
+                        viewBox="0 0 512 512"
+                      >
+                        <circle
+                          cx="256"
+                          cy="256"
+                          r="192"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="32"
+                        />
+                      </svg>
                       {color.name}
                     </button>
                   );
