@@ -64,10 +64,11 @@ const SortMenu = () => {
   const sortingButtonsClass = (id) => {
     return classNames({
       "h-10 w-60 rounded-lg text-xl leading-5 tracking-[0.5em] text-default sm:h-5 sm:w-auto sm:whitespace-nowrap sm:rounded sm:px-2 sm:text-xs sm:tracking-widest": true,
-      "flex flex-row items-center justify-center align-middle sm:mr-auto": true,
+      "flex flex-row items-center justify-center align-middle": true,
       "border border-solid border-gray-400": !(activeSortButton === id),
       "bg-button":
         activeSortButton === id || (id === 0 && activeSortButton === null),
+      "mr-auto": id === 2,
     });
   };
 
