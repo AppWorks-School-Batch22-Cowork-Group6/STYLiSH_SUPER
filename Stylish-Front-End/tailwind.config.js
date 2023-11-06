@@ -12,6 +12,7 @@ export default {
     extend: {
       colors: {
         default: "#3f3a3a",
+        button: "#fcc89b",
       },
     },
   },

@@ -1,5 +1,5 @@
 import Carousel from "./Carousel";
-
+import FilterMenu from "./FilterMenu";
 import Products from "./Products";
 import SortMenu from "./SortMenu";
 
@@ -8,6 +8,7 @@ function Home() {
     <>
       <Carousel />
       <SortMenu />
+      <FilterMenu />
       <Products />
     </>
   );

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 const ProductContext = createContext(null);
 
@@ -42,6 +42,17 @@ export const ProductProvider = ({ children }) => {
 
   const sizes = ["S", "M", "L", "XL", "F"];
 
+  const [isWide, setIsWide] = useState(window.innerWidth >= 1280);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsWide(window.innerWidth >= 1280);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const value = {
     currentPriceOption,
     activeSortButton,
@@ -49,6 +60,7 @@ export const ProductProvider = ({ children }) => {
     activeColorFilterButton,
     colors,
     sizes,
+    isWide,
     activeSizeFilterButton,
     actions: {
       setActiveSizeFilterButton,

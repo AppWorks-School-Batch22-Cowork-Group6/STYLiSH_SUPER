@@ -1,102 +1,150 @@
-// import classNames from "classnames";
-import { useContext } from "react";
-// import { useSearchParams } from "react-router-dom";
 import classNames from "classnames";
+import { useContext } from "react";
+import { useSearchParams } from "react-router-dom";
 import ProductContext from "../../context/productContext";
 
 const FilterMenu = () => {
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category") || "all";
+
   const {
     isMobileFilterShow,
     actions,
     colors,
     sizes,
+    isWide,
     activeColorFilterButton,
     activeSizeFilterButton,
   } = useContext(ProductContext);
 
   return (
-    isMobileFilterShow && (
-      <div className="fixed bottom-[60px] right-0 top-[102px] z-[899] w-full bg-[#ffffff80]">
-        <div className="filterMenu fixed bottom-[60px] right-0 top-[102px] z-[899] flex w-80 flex-col rounded-l-lg bg-white lg:hidden">
-          <div className="filterHeader flex flex-row items-center justify-between rounded-tl-lg border-b border-solid border-gray-200 bg-gray-200 px-3 pb-3 pt-3">
-            <h1 className="text-base font-bold text-default">篩選：</h1>
-            <button onClick={() => actions.setIsMobileFilterShow(false)}>
-              <CloseIcon />
-            </button>
-          </div>
-          <div className="colorFilter mt-3 flex flex-col items-start justify-between border-b border-solid border-gray-200 pb-4 pl-3 pr-4">
-            <div className="flex flex-row items-center gap-1">
-              <ColorIcon />
-              <h2 className="text-sm text-default">顏色</h2>
+    <>
+      {isMobileFilterShow && !isWide && (
+        <div className="fixed bottom-[60px] right-0 top-[102px] z-[899] w-full bg-[#ffffff80] lg:hidden">
+          <div className="filterMenu fixed bottom-[60px] right-0 top-[102px] z-[899] flex w-80 flex-col rounded-l-lg bg-white ">
+            <div className="filterHeader flex flex-row items-center justify-between rounded-tl-lg border-b border-solid border-gray-200 bg-gray-200 px-3 pb-3 pt-3">
+              <h1 className="text-base font-bold text-default">篩選：</h1>
+              <button onClick={() => actions.setIsMobileFilterShow(false)}>
+                <CloseIcon />
+              </button>
             </div>
-            <div className="mt-2 grid grid-cols-3 grid-rows-3 gap-x-2 gap-y-2">
-              {colors.map((color, index) => {
-                return (
-                  <button
-                    key={`colorbtn-${index}`}
-                    className={classNames({
-                      "h-5 w-[93px] cursor-pointer text-xs text-default": true,
-                      "bg-[#cd874a94]": index === activeColorFilterButton,
-                      "border border-solid border-gray-400":
-                        index !== activeColorFilterButton,
-                    })}
-                    onClick={() => actions.setActiveColorFilterButton(index)}
-                  >
-                    {color.name}
-                  </button>
-                );
-              })}
+            <div className="colorFilter mt-3 flex flex-col items-start justify-between border-b border-solid border-gray-200 pb-4 pl-3 pr-4">
+              <div className="flex flex-row items-center gap-1">
+                <ColorIcon />
+                <h2 className="text-sm text-default">顏色</h2>
+              </div>
+              <div className="mt-2 grid grid-cols-3 grid-rows-3 gap-x-2 gap-y-2">
+                {colors.map((color, index) => {
+                  return (
+                    <button
+                      key={`colorbtn-${index}`}
+                      className={classNames({
+                        "h-5 w-[93px] cursor-pointer text-xs text-default": true,
+                        "bg-button": index === activeColorFilterButton,
+                        "border border-solid border-gray-400":
+                          index !== activeColorFilterButton,
+                      })}
+                      onClick={() => actions.setActiveColorFilterButton(index)}
+                    >
+                      {color.name}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-          <div className="sizeFilter mt-3 flex flex-col items-start justify-between border-b border-solid border-gray-200 pb-4 pl-3 pr-4">
-            <div className="flex flex-row items-center gap-1">
-              <SizeIcon />
-              <h2 className="text-sm text-default">尺寸</h2>
+            <div className="sizeFilter mt-3 flex flex-col items-start justify-between border-b border-solid border-gray-200 pb-4 pl-3 pr-4">
+              <div className="flex flex-row items-center gap-1">
+                <SizeIcon />
+                <h2 className="text-sm text-default">尺寸</h2>
+              </div>
+              <div className="mt-2 grid grid-cols-3 grid-rows-2 gap-x-2 gap-y-2">
+                {sizes.map((size, index) => {
+                  return (
+                    <button
+                      key={`sizebtn-${index}`}
+                      className={classNames({
+                        "h-5 w-[93px] cursor-pointer text-xs text-default": true,
+                        "bg-button": index === activeSizeFilterButton,
+                        "border border-solid border-gray-400":
+                          index !== activeSizeFilterButton,
+                      })}
+                      onClick={() => actions.setActiveSizeFilterButton(index)}
+                    >
+                      {size}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <div className="mt-2 grid grid-cols-3 grid-rows-2 gap-x-2 gap-y-2">
-              {sizes.map((size, index) => {
-                return (
-                  <button
-                    key={`sizebtn-${index}`}
-                    className={classNames({
-                      "h-5 w-[93px] cursor-pointer text-xs text-default": true,
-                      "bg-[#cd874a94]": index === activeSizeFilterButton,
-                      "border border-solid border-gray-400":
-                        index !== activeSizeFilterButton,
-                    })}
-                    onClick={() => actions.setActiveSizeFilterButton(index)}
-                  >
-                    {size}
-                  </button>
-                );
-              })}
+            <div className="filterFooter mt-auto flex flex-row items-center justify-around rounded-bl-lg border-b border-solid border-gray-200 bg-gray-200 px-3 pb-3 pt-3">
+              <button
+                className={classNames({
+                  "h-8 w-32 cursor-pointer text-xs text-default": true,
+                  "bg-button": false,
+                  "border-button border border-solid": true,
+                })}
+                onClick={() => console.log()}
+              >
+                重設條件
+              </button>
+              <button
+                className={classNames({
+                  "h-8 w-32 cursor-pointer text-xs text-default": true,
+                  "bg-button": true,
+                  "border border-solid border-gray-400": false,
+                })}
+                onClick={() => console.log()}
+              >
+                送出條件
+              </button>
             </div>
-          </div>
-          <div className="filterFooter mt-auto flex flex-row items-center justify-around rounded-bl-lg border-b border-solid border-gray-200 bg-gray-200 px-3 pb-3 pt-3">
-            <button
-              className={classNames({
-                "h-8 w-32 cursor-pointer text-xs text-default": true,
-                "bg-[#cd874a94]": false,
-                "border border-solid border-[#cd874a]": true,
-              })}
-              onClick={() => console.log()}
-            >
-              重設條件
-            </button>
-            <button
-              className={classNames({
-                "h-8 w-32 cursor-pointer text-xs text-default": true,
-                "bg-[#cd874a94]": true,
-                "border border-solid border-gray-400": false,
-              })}
-              onClick={() => console.log()}
-            >
-              送出條件
-            </button>
           </div>
         </div>
-      </div>
-    )
+      )}
+      {isWide && category !== "all" && (
+        <div className="mx-auto -mt-2 flex w-[1160px] flex-col gap-2 rounded-b-xl bg-gray-100 pb-5 pt-2">
+          <div className="flex flex-row items-center gap-9 px-6">
+            <h2 className="mr-[43px] text-[22px] text-default">顏色：</h2>
+            {colors.map((color, index) => {
+              return (
+                <button
+                  key={`wideColorbtn-${index}`}
+                  className={classNames({
+                    "h-7 w-[102px] cursor-pointer rounded-lg text-base text-default": true,
+                    "bg-button": index === activeColorFilterButton,
+                    "border border-solid border-gray-400":
+                      index !== activeColorFilterButton,
+                  })}
+                  onClick={() => actions.setActiveColorFilterButton(index)}
+                >
+                  {color.name}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex flex-row items-center gap-9 px-6">
+            <h2 className="mr-[43px] text-[22px] text-default">尺寸：</h2>
+            {sizes.map((size, index) => {
+              return (
+                <button
+                  key={`wideSizebtn-${index}`}
+                  className={classNames({
+                    "h-7 w-[102px] cursor-pointer rounded-lg text-base text-default": true,
+                    "bg-button": index === activeSizeFilterButton,
+                    "border border-solid border-gray-400":
+                      index !== activeSizeFilterButton,
+                  })}
+                  onClick={() => actions.setActiveSizeFilterButton(index)}
+                >
+                  {size}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -155,6 +203,24 @@ function SizeIcon() {
         strokeLinejoin="round"
         strokeWidth="32"
         d="M304 96h112v112M405.77 106.2L111.98 400.02M208 416H96V304"
+      />
+    </svg>
+  );
+}
+
+function FilterIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 512 512"
+      className="filterIcon h-[22px] w-[22px] cursor-pointer stroke-default pt-[2px]"
+    >
+      <path
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="32"
+        d="M32 144h448M112 256h288M208 368h96"
       />
     </svg>
   );

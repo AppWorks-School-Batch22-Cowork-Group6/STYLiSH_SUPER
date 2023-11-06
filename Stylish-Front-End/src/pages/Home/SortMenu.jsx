@@ -69,13 +69,13 @@ const SortMenu = () => {
       "flex flex-row items-center justify-center align-middle sm:mr-auto":
         id === 2,
       "border border-solid border-gray-400": !(activeSortButton === id),
-      "bg-[#cd874a94]": activeSortButton === id,
+      "bg-button": activeSortButton === id,
     });
   };
 
   return (
     category !== "all" && (
-      <div className="sm: mx-auto mt-8 flex h-20 w-[1160px] flex-row items-center justify-start gap-9 rounded-xl bg-gray-100 sm:mx-6 sm:-mb-[11px] sm:mt-1 sm:h-10 sm:w-auto sm:justify-start sm:gap-3 sm:bg-transparent">
+      <div className="mx-auto mt-8 flex h-20 w-[1160px] flex-row items-center justify-start gap-9 rounded-xl bg-gray-100 sm:mx-6 sm:-mb-[11px] sm:mt-1 sm:h-10 sm:w-auto sm:justify-start sm:gap-3 sm:bg-transparent">
         <h1 className="ml-6 text-[22px] text-default sm:ml-0 sm:hidden sm:whitespace-nowrap sm:text-xs">
           排序選項：
         </h1>
