@@ -5,17 +5,67 @@ const ProductContext = createContext(null);
 
 const testApiSearchEndpoint = "https://www.joazen.website/api/products/search";
 
-const sortingApis = {
-  byRecommend: (category) => `${testApiSearchEndpoint}?category=${category}`,
-  byReleaseTime: `${testApiSearchEndpoint}?sorting=newest`,
-  byPrice: (sortOrder) => `${testApiSearchEndpoint}?sorting=${sortOrder}`,
-};
-
 export const ProductProvider = ({ children }) => {
   const [isMobileFilterShow, setIsMobileFilterShow] = useState(false);
   const [activeColorFilterButton, setActiveColorFilterButton] = useState(null);
   const [activeSizeFilterButton, setActiveSizeFilterButton] = useState(null);
   const navigate = useNavigate();
+  const [urlToFetch, setUrlToFetch] = useState(
+    `https://www.joazen.website/api/products/search`,
+  );
+
+  const sortingApis = {
+    byRecommend: (category) => {
+      const newUrlToFetch = `${testApiSearchEndpoint}?category=${category}`;
+      setUrlToFetch(newUrlToFetch);
+      return newUrlToFetch;
+    },
+    byReleaseTime: (category) => {
+      const newUrlToFetch = `${testApiSearchEndpoint}?category=${category}&sorting=newest`;
+      setUrlToFetch(newUrlToFetch);
+      return newUrlToFetch;
+    },
+    byPrice: (sortOrder, category) =>
+      `${testApiSearchEndpoint}?category=${category}&sorting=${sortOrder}`,
+  };
+
+  const filteringApis = {
+    byColor: (colorName, category) => {
+      let newUrlToFetch = urlToFetch;
+      if (urlToFetch.includes("category=")) {
+      } else {
+        newUrlToFetch = newUrlToFetch + `?category=${category}`;
+      }
+
+      if (newUrlToFetch.indexOf("&color=") !== -1) {
+        newUrlToFetch = newUrlToFetch.replace(
+          /&color=[^&]*/,
+          `&color=${colorName}`,
+        );
+      } else {
+        newUrlToFetch += `&color=${colorName}`;
+      }
+
+      setUrlToFetch(newUrlToFetch);
+      return newUrlToFetch;
+    },
+    bySize: (size, category) => {
+      let newUrlToFetch = urlToFetch;
+      if (urlToFetch.includes("category=")) {
+      } else {
+        newUrlToFetch = newUrlToFetch + `?category=${category}`;
+      }
+
+      if (newUrlToFetch.indexOf("&size=") !== -1) {
+        newUrlToFetch = newUrlToFetch.replace(/&size=[^&]*/, `&size=${size}`);
+      } else {
+        newUrlToFetch += `&size=${size}`;
+      }
+
+      setUrlToFetch(newUrlToFetch);
+      return newUrlToFetch;
+    },
+  };
 
   const colors = [
     {
@@ -62,37 +112,61 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   const [currentPriceOption, _setCurrentPriceOption] = useState(0);
-  const [activeSortButton, _setActiveSortButton] = useState(null);
+  const [activeSortButton, _setActiveSortButton] = useState(0);
   async function sortByRecommend(category) {
     _setActiveSortButton(0);
     currentPriceOption !== 0 && _setCurrentPriceOption(0);
     if (category === "all") return;
     const apiEndpoint = sortingApis.byRecommend(category);
-    // console.log("apiEndpoint: ", apiEndpoint);
-    // await fetch(apiEndpoint);
+    setUrlToFetch(
+      `https://www.joazen.website/api/products/search?category=${category}`,
+    );
     navigate(`/?category=${category}&sorting=${category}`);
+    await fetch(apiEndpoint);
   }
   async function sortByReleaseTime(category) {
     _setActiveSortButton(1);
     currentPriceOption !== 0 && _setCurrentPriceOption(0);
-    const apiEndpoint = sortingApis.byReleaseTime;
-    // console.log("apiEndpoint: ", apiEndpoint);
-    // await fetch(apiEndpoint);
+    const apiEndpoint = sortingApis.byReleaseTime(category);
+    setUrlToFetch(
+      `https://www.joazen.website/api/products/search?category=${category}&sorting=newest`,
+    );
     navigate(`/?category=${category}&sorting=newest`);
+    await fetch(apiEndpoint);
   }
   async function sortByPrice(num, category) {
     _setActiveSortButton(2);
     _setCurrentPriceOption(num);
-    const sortOrder = ["price_desc", "price_asc"][num];
-    const apiEndpoint = sortingApis.byPrice(sortOrder);
-    // console.log("apiEndpoint: ", apiEndpoint);
-    // await fetch(apiEndpoint);
+    const sortOrder = ["price_asc", "price_desc"][num];
+    const apiEndpoint = sortingApis.byPrice(sortOrder, category);
+    setUrlToFetch(
+      `https://www.joazen.website/api/products/search?category=${category}&sorting=${sortOrder}`,
+    );
     navigate(`/?category=${category}&sorting=${sortOrder}`);
+    await fetch(apiEndpoint);
   }
   function resetSortOptions() {
-    _setActiveSortButton(null);
+    _setActiveSortButton(0);
     _setCurrentPriceOption(0);
   }
+  async function filterByColor(colorName, category) {
+    const endpoint = filteringApis.byColor(colorName, category);
+    // console.log("endpoint in filterbycolor", endpoint);
+    const searchParameters = endpoint.substring(endpoint.indexOf("?"));
+    // console.log(searchParameters);
+    navigate(`/${searchParameters}`);
+    await fetch(endpoint);
+  }
+
+  async function filterBySize(size, category) {
+    const endpoint = filteringApis.bySize(size, category);
+    // console.log("endpoint in filterbysize", endpoint);
+    const searchParameters = endpoint.substring(endpoint.indexOf("?"));
+    // console.log(searchParameters);
+    navigate(`/${searchParameters}`);
+    await fetch(endpoint);
+  }
+
   const value = {
     currentPriceOption,
     activeSortButton,
@@ -109,11 +183,14 @@ export const ProductProvider = ({ children }) => {
       resetSortOptions,
       setActiveColorFilterButton,
       setActiveSizeFilterButton,
-      setIsMobileFilterShow
+      setIsMobileFilterShow,
+      filterByColor,
+      filterBySize,
+      setUrlToFetch,
     },
   };
   return (
-    <ProductContext.Provider value={ value }>{ children }</ProductContext.Provider>
+    <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
   );
 };
 

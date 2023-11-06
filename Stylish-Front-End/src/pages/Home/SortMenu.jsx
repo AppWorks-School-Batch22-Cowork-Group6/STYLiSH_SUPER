@@ -13,7 +13,6 @@ const SortMenu = () => {
     useContext(ProductContext);
 
   const priceIconOptions = [
-    "M464 208L352 96 240 208M352 113.13V416M48 304l112 112 112-112M160 398V96",
     "M112 244l144-144 144 144M256 120v292",
     "M112 268l144 144 144-144M256 392V100",
   ];
@@ -30,7 +29,7 @@ const SortMenu = () => {
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="32"
-          d={ priceIconOptions[currentPriceOption] }
+          d={priceIconOptions[currentPriceOption]}
         />
       </svg>
     );
@@ -65,10 +64,11 @@ const SortMenu = () => {
   const sortingButtonsClass = (id) => {
     return classNames({
       "h-10 w-60 rounded-lg text-xl leading-5 tracking-[0.5em] text-default sm:h-5 sm:w-auto sm:whitespace-nowrap sm:rounded sm:px-2 sm:text-xs sm:tracking-widest": true,
-      "flex flex-row items-center justify-center align-middle sm:mr-auto":
-        id === 2,
+      "flex flex-row items-center justify-center align-middle": true,
       "border border-solid border-gray-400": !(activeSortButton === id),
-      "bg-button": activeSortButton === id || (id === 0 && activeSortButton === null),
+      "bg-button":
+        activeSortButton === id || (id === 0 && activeSortButton === null),
+      "mr-auto": id === 2,
     });
   };
 
@@ -79,27 +79,39 @@ const SortMenu = () => {
           排序選項：
         </h1>
         <button
-          className={ sortingButtonsClass(0) }
-          onClick={ () => actions.sortByRecommend(category) }
+          className={sortingButtonsClass(0)}
+          onClick={() => {
+            actions.setActiveColorFilterButton(null);
+            actions.setActiveSizeFilterButton(null);
+            actions.sortByRecommend(category);
+          }}
         >
           推薦排序
         </button>
         <button
-          className={ sortingButtonsClass(1) }
-          onClick={ () => actions.sortByReleaseTime(category) }
+          className={sortingButtonsClass(1)}
+          onClick={() => {
+            actions.setActiveColorFilterButton(null);
+            actions.setActiveSizeFilterButton(null);
+            actions.sortByReleaseTime(category);
+          }}
         >
           新上市
         </button>
         <button
-          className={ sortingButtonsClass(2) }
-          onClick={ () => handlePriceSortClick() }
+          className={sortingButtonsClass(2)}
+          onClick={() => {
+            actions.setActiveColorFilterButton(null);
+            actions.setActiveSizeFilterButton(null);
+            handlePriceSortClick();
+          }}
         >
-          <p>{ priceTextOptions[currentPriceOption] }</p>
+          <p>{priceTextOptions[currentPriceOption]}</p>
           <PriceIcon />
         </button>
         <button
           className="cursor-pointer"
-          onClick={ () => actions.setIsMobileFilterShow(!isMobileFilterShow) }
+          onClick={() => actions.setIsMobileFilterShow(!isMobileFilterShow)}
         >
           <FilterIcon />
         </button>

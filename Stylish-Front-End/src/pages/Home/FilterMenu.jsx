@@ -48,7 +48,10 @@ const FilterMenu = () => {
                         "border border-solid border-gray-400":
                           index !== activeColorFilterButton,
                       })}
-                      onClick={() => actions.setActiveColorFilterButton(index)}
+                      onClick={() => {
+                        actions.filterByColor(color.name, category);
+                        actions.setActiveColorFilterButton(index);
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +89,10 @@ const FilterMenu = () => {
                         "border border-solid border-gray-400":
                           index !== activeSizeFilterButton,
                       })}
-                      onClick={() => actions.setActiveSizeFilterButton(index)}
+                      onClick={() => {
+                        actions.filterBySize(size, category);
+                        actions.setActiveSizeFilterButton(index);
+                      }}
                     >
                       {size}
                     </button>
@@ -104,6 +110,9 @@ const FilterMenu = () => {
                 onClick={() => {
                   actions.setActiveColorFilterButton(null);
                   actions.setActiveSizeFilterButton(null);
+                  actions.setUrlToFetch(
+                    "https://www.joazen.website/api/products/search",
+                  );
                 }}
               >
                 重設條件
@@ -116,11 +125,9 @@ const FilterMenu = () => {
                 })}
                 onClick={() => {
                   actions.setIsMobileFilterShow(false);
-                  actions.setActiveColorFilterButton(null);
-                  actions.setActiveSizeFilterButton(null);
                 }}
               >
-                送出條件
+                檢視條件
               </button>
             </div>
           </div>
@@ -144,7 +151,10 @@ const FilterMenu = () => {
                     "border border-solid border-gray-400":
                       index !== activeColorFilterButton,
                   })}
-                  onClick={() => actions.setActiveColorFilterButton(index)}
+                  onClick={() => {
+                    actions.setActiveColorFilterButton(index);
+                    actions.filterByColor(color.name, category);
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +188,10 @@ const FilterMenu = () => {
                     "border border-solid border-gray-400":
                       index !== activeSizeFilterButton,
                   })}
-                  onClick={() => actions.setActiveSizeFilterButton(index)}
+                  onClick={() => {
+                    actions.filterBySize(size, category);
+                    actions.setActiveSizeFilterButton(index);
+                  }}
                 >
                   {size}
                 </button>
@@ -246,24 +259,6 @@ function SizeIcon() {
         strokeLinejoin="round"
         strokeWidth="32"
         d="M304 96h112v112M405.77 106.2L111.98 400.02M208 416H96V304"
-      />
-    </svg>
-  );
-}
-
-function FilterIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 512 512"
-      className="filterIcon h-[22px] w-[22px] cursor-pointer stroke-default pt-[2px]"
-    >
-      <path
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="32"
-        d="M32 144h448M112 256h288M208 368h96"
       />
     </svg>
   );
