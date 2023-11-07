@@ -43,7 +43,7 @@ function TestingStream() {
     };
 
     const { data } = await axios.post(
-      "http://localhost:5000/broadcast",
+      "http://54.238.127.166:5000//broadcast",
       payload,
     );
     const desc = new RTCSessionDescription(data.sdp);
@@ -79,7 +79,7 @@ function TestingStream() {
     };
 
     const { data } = await axios.post(
-      "http://localhost:5000/consumer",
+      "http://54.238.127.166:5000//consumer",
       payload,
     );
     const desc = new RTCSessionDescription(data.sdp);
