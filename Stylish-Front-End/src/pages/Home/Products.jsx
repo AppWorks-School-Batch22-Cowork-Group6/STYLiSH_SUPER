@@ -13,6 +13,7 @@ import Thumbnail from "./Recommend/Thumbnail";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const sliderRef = useRef(null);
@@ -58,24 +59,38 @@ function Products() {
     }
 
     async function scrollHandler() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      // console.log("activate in scrollHandler but outside of condition");
+
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 300
+      ) {
         const category = searchParams.get("category") || "all";
+        console.log("scrollHandler category: ", category);
+        console.log("scrollHandler nextPaging: ", nextPaging);
+        console.log("scrollHandler isFetching: ", isFetching);
         if (category === "all") return;
-        if (nextPaging === undefined) return;
+        if (nextPaging === null) return;
         if (isFetching) return;
 
         fetchProducts();
       }
     }
 
+    async function fetchRecommendation() {
+      response = await api.getRecommendation();
+      setRecommendations(response.data);
+    }
+
     fetchProducts();
+    fetchRecommendation();
 
     window.addEventListener("scroll", scrollHandler);
 
     return () => {
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [keyword, category]);
+  }, [keyword, category, urlToFetch]);
 
   return (
     <Wrapper>
@@ -84,8 +99,8 @@ function Products() {
           <Product key={id} to={`/products/${id}`} id={index}>
             <ProductImage src={main_image} />
             <ProductColors>
-              {colors.map(({ code }) => (
-                <ProductColor $colorCode={`#${code}`} key={code} />
+              {colors.map(({ code }, index) => (
+                <ProductColor $colorCode={code} key={`${code}-${index}`} />
               ))}
             </ProductColors>
             <ProductTitle>{title}</ProductTitle>
@@ -101,9 +116,16 @@ function Products() {
           />
           <Heading text="大家都在買" />
           <Container ref={sliderRef}>
-            {Array.from({ length: 10 }, (_, index) => (
-              <Thumbnail key={index} />
-            ))}
+            {recommendations.map(({ main_image, colors, title }, index) => {
+              return (
+                <Thumbnail
+                  key={index}
+                  image={main_image}
+                  colors={colors}
+                  title={title}
+                />
+              );
+            })}
           </Container>
           <Button
             position="right"
@@ -145,7 +167,9 @@ const Product = styled(Link)`
 `;
 
 const ProductImage = styled.img`
-  width: 100%;
+  width: 360px;
+  height: 480px;
+  object-fit: cover;
   vertical-align: middle;
 `;
 
@@ -162,6 +186,7 @@ const ProductColor = styled.div`
   width: 24px;
   height: 24px;
   box-shadow: 0px 0px 1px #bbbbbb;
+  border: 1px solid lightgray;
   background-color: ${(props) => props.$colorCode};
 
   @media screen and (max-width: 1279px) {

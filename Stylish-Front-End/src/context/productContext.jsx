@@ -103,10 +103,6 @@ export const ProductProvider = ({ children }) => {
     const endpoint = `${testApiSearchEndpoint}?category=${category}`;
     setUrlToFetch(endpoint);
     navigate(`/?category=${category}&sorting=recommend`);
-    console.log("activated in sort by recommend: ", endpoint);
-    const response = await fetch(endpoint);
-    const result = await response.json();
-    console.log(result.data[0]);
   }
 
   async function sortByReleaseTime(category) {
@@ -115,10 +111,6 @@ export const ProductProvider = ({ children }) => {
     const endpoint = `${testApiSearchEndpoint}?category=${category}&sorting=newest`;
     setUrlToFetch(endpoint);
     navigate(`/?category=${category}&sorting=newest`);
-    console.log("activated in sort by release time: ", endpoint);
-    const response = await fetch(endpoint);
-    const result = await response.json();
-    console.log(result.data[0]);
   }
 
   async function sortByPrice(num, category) {
@@ -128,10 +120,6 @@ export const ProductProvider = ({ children }) => {
     const endpoint = `${testApiSearchEndpoint}?category=${category}&sorting=${sortOrder}`;
     setUrlToFetch(endpoint);
     navigate(`/?category=${category}&sorting=${sortOrder}`);
-    console.log("activated in sort by price: ", endpoint);
-    const response = await fetch(endpoint);
-    const result = await response.json();
-    console.log(result.data[0]);
   }
 
   function resetSortOptions() {
@@ -145,13 +133,6 @@ export const ProductProvider = ({ children }) => {
 
     const searchParameters = endpoint.substring(endpoint.indexOf("?"));
     navigate(`/${searchParameters}`);
-
-    console.log("activated in filter by color: ", endpoint);
-
-    const response = await fetch(endpoint);
-    const result = await response.json();
-
-    console.log(result.data[0]);
   }
 
   async function filterBySize(size, category) {
@@ -160,13 +141,6 @@ export const ProductProvider = ({ children }) => {
 
     const searchParameters = endpoint.substring(endpoint.indexOf("?"));
     navigate(`/${searchParameters}`);
-
-    console.log("activated in filter by size: ", endpoint);
-
-    const response = await fetch(endpoint);
-    const result = await response.json();
-
-    console.log(result.data[0]);
   }
 
   const value = {

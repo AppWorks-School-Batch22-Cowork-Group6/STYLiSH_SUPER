@@ -1,11 +1,19 @@
 const api = {
   hostname: "https://api.appworks-school.tw/api/1.0",
+  newhostname: "https://www.joazen.website/api",
 
   async getProducts(category, paging) {
     const response = await fetch(
-      `${this.hostname}/products/${category}?paging=${paging}`,
+      `${this.newhostname}/products/search?category=${category}&paging=${paging}`,
     );
-    return await response.json();
+    const result = await response.json();
+    return result;
+  },
+
+  async getRecommendation() {
+    const response = await fetch(`${this.newhostname}/products/recommendation`);
+    const result = await response.json();
+    return result;
   },
 
   async getCampaigns() {
