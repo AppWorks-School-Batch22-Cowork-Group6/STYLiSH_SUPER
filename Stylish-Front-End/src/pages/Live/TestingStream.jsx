@@ -64,6 +64,7 @@ function TestingStream() {
         },
       ],
     });
+    console.log("What is peer?", peer);
     peer.ontrack = handleTrackEvent;
     peer.onnegotiationneeded = () => handleViewerNegotiationNeededEvent(peer);
 
@@ -86,6 +87,7 @@ function TestingStream() {
   }
 
   function handleTrackEvent(e) {
+    console.log("tracking triggered");
     if (viewerVideoRef.current) {
       viewerVideoRef.current.srcObject = e.streams[0];
     }
@@ -159,7 +161,12 @@ function TestingStream() {
           >
             viewer start
           </button>
-          <video autoPlay playsInline className="h-[240px] w-[320px]"></video>
+          <video
+            autoPlay
+            playsInline
+            className="h-[240px] w-[320px]"
+            ref={viewerVideoRef}
+          ></video>
           <h1 className="text-xl text-default">viewer</h1>
         </div>
       </div>
