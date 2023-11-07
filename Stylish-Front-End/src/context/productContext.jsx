@@ -122,7 +122,8 @@ export const ProductProvider = ({ children }) => {
       `https://www.joazen.website/api/products/search?category=${category}`,
     );
     navigate(`/?category=${category}&sorting=${category}`);
-    await fetch(apiEndpoint);
+    const response = await fetch(apiEndpoint);
+    console.log(response.data);
   }
   async function sortByReleaseTime(category) {
     _setActiveSortButton(1);
@@ -132,7 +133,8 @@ export const ProductProvider = ({ children }) => {
       `https://www.joazen.website/api/products/search?category=${category}&sorting=newest`,
     );
     navigate(`/?category=${category}&sorting=newest`);
-    await fetch(apiEndpoint);
+    const response = await fetch(apiEndpoint);
+    console.log(response.data);
   }
   async function sortByPrice(num, category) {
     _setActiveSortButton(2);
@@ -143,7 +145,8 @@ export const ProductProvider = ({ children }) => {
       `https://www.joazen.website/api/products/search?category=${category}&sorting=${sortOrder}`,
     );
     navigate(`/?category=${category}&sorting=${sortOrder}`);
-    await fetch(apiEndpoint);
+    const response = await fetch(apiEndpoint);
+    console.log(response.data);
   }
   function resetSortOptions() {
     _setActiveSortButton(0);
@@ -155,7 +158,8 @@ export const ProductProvider = ({ children }) => {
     const searchParameters = endpoint.substring(endpoint.indexOf("?"));
     // console.log(searchParameters);
     navigate(`/${searchParameters}`);
-    await fetch(endpoint);
+    const response = await fetch(endpoint);
+    console.log(response.data);
   }
 
   async function filterBySize(size, category) {
@@ -164,7 +168,8 @@ export const ProductProvider = ({ children }) => {
     const searchParameters = endpoint.substring(endpoint.indexOf("?"));
     // console.log(searchParameters);
     navigate(`/${searchParameters}`);
-    await fetch(endpoint);
+    const response = await fetch(endpoint);
+    console.log(response.data);
   }
 
   const value = {
