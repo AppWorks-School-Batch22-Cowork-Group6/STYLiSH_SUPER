@@ -3,18 +3,20 @@ import { useRef } from "react";
 function TestingStream() {
   // const [localStream, setLocalStream] = useState(null);
   // const [isVideoShow, setIsVideoShow] = useState(false);
-  const videoRef = useRef(null);
+  const hostVideoRef = useRef(null);
+  const viewerVideoRef = useRef(null);
 
   const constraints = {
     audio: true,
     video: true,
   };
 
+  //  以下是host的部分
   async function hostInit(constraints) {
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
     // setLocalStream(stream);
-    if (videoRef.current) {
-      videoRef.current.srcObject = stream;
+    if (hostVideoRef.current) {
+      hostVideoRef.current.srcObject = stream;
     }
     const peer = createPeer();
     stream.getTracks().forEach((track) => peer.addTrack(track, stream));
@@ -40,9 +42,53 @@ function TestingStream() {
       sdp: peer.localDescription,
     };
 
-    const { data } = await axios.post("/broadcast", payload);
+    const { data } = await axios.post(
+      "http://localhost:5000/broadcast",
+      payload,
+    );
     const desc = new RTCSessionDescription(data.sdp);
     peer.setRemoteDescription(desc).catch((e) => console.log(e));
+  }
+
+  //  以下是viewer的部分
+  async function viewerInit() {
+    const peer = viewerCreatePeer();
+    peer.addTransceiver("video", { direction: "recvonly" });
+  }
+
+  function viewerCreatePeer() {
+    const peer = new RTCPeerConnection({
+      iceServers: [
+        {
+          urls: "stun:stun.stunprotocol.org",
+        },
+      ],
+    });
+    peer.ontrack = handleTrackEvent;
+    peer.onnegotiationneeded = () => handleViewerNegotiationNeededEvent(peer);
+
+    return peer;
+  }
+
+  async function handleViewerNegotiationNeededEvent(peer) {
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
+    const payload = {
+      sdp: peer.localDescription,
+    };
+
+    const { data } = await axios.post(
+      "http://localhost:5000/consumer",
+      payload,
+    );
+    const desc = new RTCSessionDescription(data.sdp);
+    peer.setRemoteDescription(desc).catch((e) => console.log(e));
+  }
+
+  function handleTrackEvent(e) {
+    if (viewerVideoRef.current) {
+      viewerVideoRef.current.srcObject = e.streams[0];
+    }
   }
 
   // const getAudioVideo = () => {
@@ -87,6 +133,7 @@ function TestingStream() {
           <button
             onClick={() => {
               hostInit(constraints);
+              console.log("host button click");
               // getAudioVideo();
             }}
             className="h-8 rounded-md bg-lime-300 px-1 text-base"
@@ -96,14 +143,20 @@ function TestingStream() {
           <video
             autoPlay
             playsInline
-            ref={videoRef}
+            ref={hostVideoRef}
             className="h-[240px] w-[320px]"
           ></video>
           <h1 className="text-xl text-default">host</h1>
         </div>
 
         <div className="viewer flex flex-col items-center justify-start gap-4">
-          <button className="h-8 rounded-md bg-purple-300 px-1 text-base">
+          <button
+            className="h-8 rounded-md bg-purple-300 px-1 text-base"
+            onClick={() => {
+              viewerInit();
+              console.log("viewer button click");
+            }}
+          >
             viewer start
           </button>
           <video autoPlay playsInline className="h-[240px] w-[320px]"></video>
