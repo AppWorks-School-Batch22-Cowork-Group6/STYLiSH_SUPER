@@ -43,7 +43,7 @@ function TestingStream() {
     };
 
     const { data } = await axios.post(
-      "http://54.238.127.166/broadcast",
+      "https://joazen.website/broadcast",
       payload,
     );
     const desc = new RTCSessionDescription(data.sdp);
@@ -79,7 +79,7 @@ function TestingStream() {
     };
 
     const { data } = await axios.post(
-      "https://54.238.127.166/consumer",
+      "https://joazen.website/consumer",
       payload,
     );
     const desc = new RTCSessionDescription(data.sdp);
@@ -87,10 +87,13 @@ function TestingStream() {
   }
 
   function handleTrackEvent(e) {
+    console.log("before", viewerVideoRef.current.srcObject);
     console.log("tracking triggered");
     if (viewerVideoRef.current) {
+      console.log("setting videoRef");
       viewerVideoRef.current.srcObject = e.streams[0];
     }
+    console.log("After: ", viewerVideoRef.current.srcObject);
   }
 
   // const getAudioVideo = () => {
