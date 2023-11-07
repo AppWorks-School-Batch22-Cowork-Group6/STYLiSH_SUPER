@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ReactLoading from "react-loading";
 import { Link, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import ProductContext from "../../context/productContext";
 import api from "../../utils/api";
 import recommend from "../../utils/recommend";
 import Recommend from "./Recommend";
@@ -15,6 +16,10 @@ function Products() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const sliderRef = useRef(null);
+  const { urlToFetch } = useContext(ProductContext);
+  const initialSearchUrl = "https://www.joazen.website/api/products/search";
+
+  console.log("newEndpoint activated in products: ", urlToFetch);
 
   const keyword = searchParams.get("keyword");
   const category = searchParams.get("category") || "all";
@@ -26,16 +31,29 @@ function Products() {
     async function fetchProducts() {
       isFetching = true;
       setIsLoading(true);
-      const response = keyword
-        ? await api.searchProducts(keyword, nextPaging)
-        : await api.getProducts(category, nextPaging);
+
+      let response = "";
+
+      if (urlToFetch && urlToFetch !== initialSearchUrl) {
+        console.log("detect search query to fetch");
+        response = await api.getParticularProducts(urlToFetch, nextPaging);
+      } else {
+        console.log("detect no search query to fetch");
+        response = keyword
+          ? await api.searchProducts(keyword, nextPaging)
+          : await api.getProducts(category, nextPaging);
+      }
+
       if (nextPaging === 0) {
+        console.log(response.data);
         setProducts(response.data);
       } else {
+        console.log(response.data);
         setProducts((prev) => [...prev, ...response.data]);
       }
       nextPaging = response.next_paging;
       isFetching = false;
+
       setIsLoading(false);
     }
 

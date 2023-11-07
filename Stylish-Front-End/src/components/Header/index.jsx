@@ -27,7 +27,12 @@ function Header() {
 
   return (
     <Wrapper>
-      <Logo to="/" />
+      <Logo
+        to="/"
+        onClick={() => {
+          actions.setUrlToFetch(null);
+        }}
+      />
       <CategoryLinks>
         {categories.map(({ name, displayText }, index) => (
           <React.Fragment key={`category_${index}`}>
