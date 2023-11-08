@@ -41,6 +41,14 @@ const api = {
     return await response.json();
   },
 
+  async getSuggestions(keyword) {
+    const response = await fetch(
+      `${this.newhostname}/products/auto?keyword=${keyword}`,
+    );
+    const result = await response.json();
+    return result;
+  },
+
   async getParticularProducts(endpoint, paging) {
     const response = await fetch(`${endpoint}&paging=${paging}`);
     return await response.json();
