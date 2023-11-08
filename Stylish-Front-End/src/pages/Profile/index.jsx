@@ -18,9 +18,9 @@ const Title = styled.div`
   font-weight: bold;
 `;
 
-const Photo = styled.img`
-  margin-top: 24px;
-`;
+// const Photo = styled.img`
+//   margin-top: 24px;
+// `;
 
 const Content = styled.div`
   margin-top: 24px;

@@ -11,13 +11,24 @@ const api = {
   },
 
   async getRecommendation() {
-    const response = await fetch(`${this.newhostname}/products/recommendation`);
+    const jwtToken = localStorage.getItem("jwtToken");
+    let response;
+    if (jwtToken) {
+      response = await fetch(`${this.newhostname}/products/recommendation`, {
+        headers: {
+          Authorization: jwtToken,
+          "Content-Type": "application/json",
+        },
+      });
+    } else {
+      response = await fetch(`${this.newhostname}/products/recommendation`);
+    }
     const result = await response.json();
     return result;
   },
 
   async getCampaigns() {
-    const response = await fetch(`${this.newhostname}/marketing/campaigns`);
+    const response = await fetch(`${this.hostname}/marketing/campaigns`);
     return await response.json();
   },
 

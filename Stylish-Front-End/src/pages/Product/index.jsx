@@ -18,9 +18,7 @@ function Product() {
 
   useEffect(() => {
     async function getProduct() {
-      console.log("current id --> ", id);
       const { data } = await api.getProduct(id);
-      console.log(data[0]);
       setProduct(data[0]);
     }
     async function fetchRecommendation() {
@@ -109,6 +107,7 @@ const MainImage = styled.img`
   @media screen and (max-width: 1279px) {
     width: 100%;
     height: unset;
+    aspect-ratio: 3/4;
   }
 `;
 

@@ -35,7 +35,6 @@ const fb = {
       window.FB.login(
         (response) => {
           resolve(response);
-          console.log(response);
         },
         { scope: "public_profile,email" },
       );

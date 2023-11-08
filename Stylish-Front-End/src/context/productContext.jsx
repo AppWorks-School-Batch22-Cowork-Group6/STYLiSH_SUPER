@@ -78,7 +78,7 @@ export const ProductProvider = ({ children }) => {
     },
   ];
 
-  const sizes = ["S", "M", "L", "XL", "F"];
+  const sizes = ["XS", "S", "M", "L", "XL", "F"];
 
   const [isWide, setIsWide] = useState(window.innerWidth >= 1280);
   useEffect(() => {

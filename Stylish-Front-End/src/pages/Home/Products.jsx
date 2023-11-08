@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import ReactLoading from "react-loading";
 import { Link, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../../context/authContext";
 import ProductContext from "../../context/productContext";
 import api from "../../utils/api";
 import recommend from "../../utils/recommend";
@@ -18,9 +19,8 @@ function Products() {
   const [searchParams] = useSearchParams();
   const sliderRef = useRef(null);
   const { urlToFetch } = useContext(ProductContext);
+  const { jwtToken } = useContext(AuthContext);
   const initialSearchUrl = "https://www.joazen.website/api/products/search";
-
-  // console.log("newEndpoint activated in products: ", urlToFetch);
 
   const keyword = searchParams.get("keyword");
   const category = searchParams.get("category") || "all";
@@ -36,20 +36,16 @@ function Products() {
       let response = "";
 
       if (urlToFetch && urlToFetch !== initialSearchUrl) {
-        // console.log("detect search query to fetch");
         response = await api.getParticularProducts(urlToFetch, nextPaging);
       } else {
-        // console.log("detect no search query to fetch");
         response = keyword
           ? await api.searchProducts(keyword, nextPaging)
           : await api.getProducts(category, nextPaging);
       }
 
       if (nextPaging === 0) {
-        // console.log(response.data);
         setProducts(response.data);
       } else {
-        // console.log(response.data);
         setProducts((prev) => [...prev, ...response.data]);
       }
       nextPaging = response.next_paging;
@@ -63,11 +59,7 @@ function Products() {
         window.innerHeight + window.scrollY >=
         document.body.offsetHeight - 60
       ) {
-        console.log("activate in scrollHandler");
         const category = searchParams.get("category") || "all";
-        // console.log("scrollHandler category: ", category);
-        // console.log("scrollHandler nextPaging: ", nextPaging);
-        // console.log("scrollHandler isFetching: ", isFetching);
         if (category === "all") return;
         if (!nextPaging) return;
         if (isFetching) return;
@@ -89,7 +81,7 @@ function Products() {
     return () => {
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [keyword, category, urlToFetch]);
+  }, [keyword, category, urlToFetch, jwtToken]);
 
   return (
     <Wrapper>
@@ -178,6 +170,12 @@ const ProductImage = styled.img`
   height: 480px;
   object-fit: cover;
   vertical-align: middle;
+
+  @media screen and (max-width: 1279px) {
+    aspect-ratio: 3/4;
+    width: 100%;
+    height: unset;
+  }
 `;
 
 const ProductColors = styled.div`

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Thumbnail = ({ image, colors, title, id }) => {
   return (
     <Link to={`/products/${id}`} className="contents">
-      <div className="flex h-40 shrink-0 cursor-pointer flex-col justify-between rounded-lg bg-slate-50 p-2 lg:h-[290px] lg:max-w-[186px] lg:p-4">
+      <div className="flex h-[160px] w-[106px] shrink-0 cursor-pointer flex-col justify-between rounded-lg bg-slate-50 p-2 lg:h-[290px] lg:w-[186px] lg:max-w-[186px] lg:p-4">
         <img
           src={image}
           alt={title}
@@ -18,7 +18,7 @@ const Thumbnail = ({ image, colors, title, id }) => {
             }
 
             const colorBlockClass =
-              "aspect-square w-2 lg:w-4 border-2 border-solid border-gray-300 bg-[var(--color)]";
+              "aspect-square w-2 lg:w-4 border border-solid border-gray-300 bg-[var(--color)]";
 
             return (
               <div
@@ -29,7 +29,9 @@ const Thumbnail = ({ image, colors, title, id }) => {
             );
           })}
         </div>
-        <h1 className="text-xs text-default lg:text-sm">{title}</h1>
+        <h1 className="recommend-product-title whitespace-nowrap text-[10px] text-default lg:text-sm">
+          {title}
+        </h1>
       </div>
     </Link>
   );
