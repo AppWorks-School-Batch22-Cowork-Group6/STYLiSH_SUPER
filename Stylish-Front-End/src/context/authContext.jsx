@@ -26,6 +26,7 @@ export const AuthContextProvider = ({ children }) => {
     const { access_token: tokenFromServer, user: userData } = data;
     setUser(userData);
     setJwtToken(tokenFromServer);
+    console.log(tokenFromServer);
     window.localStorage.setItem("jwtToken", tokenFromServer);
     setIsLogin(true);
     return tokenFromServer;
