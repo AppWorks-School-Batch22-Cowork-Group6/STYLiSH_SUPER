@@ -20,7 +20,7 @@ function Products() {
   const { urlToFetch } = useContext(ProductContext);
   const initialSearchUrl = "https://www.joazen.website/api/products/search";
 
-  console.log("newEndpoint activated in products: ", urlToFetch);
+  // console.log("newEndpoint activated in products: ", urlToFetch);
 
   const keyword = searchParams.get("keyword");
   const category = searchParams.get("category") || "all";
@@ -36,20 +36,20 @@ function Products() {
       let response = "";
 
       if (urlToFetch && urlToFetch !== initialSearchUrl) {
-        console.log("detect search query to fetch");
+        // console.log("detect search query to fetch");
         response = await api.getParticularProducts(urlToFetch, nextPaging);
       } else {
-        console.log("detect no search query to fetch");
+        // console.log("detect no search query to fetch");
         response = keyword
           ? await api.searchProducts(keyword, nextPaging)
           : await api.getProducts(category, nextPaging);
       }
 
       if (nextPaging === 0) {
-        console.log(response.data);
+        // console.log(response.data);
         setProducts(response.data);
       } else {
-        console.log(response.data);
+        // console.log(response.data);
         setProducts((prev) => [...prev, ...response.data]);
       }
       nextPaging = response.next_paging;
@@ -59,18 +59,17 @@ function Products() {
     }
 
     async function scrollHandler() {
-      // console.log("activate in scrollHandler but outside of condition");
-
       if (
         window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 300
+        document.body.offsetHeight - 60
       ) {
+        console.log("activate in scrollHandler");
         const category = searchParams.get("category") || "all";
-        console.log("scrollHandler category: ", category);
-        console.log("scrollHandler nextPaging: ", nextPaging);
-        console.log("scrollHandler isFetching: ", isFetching);
+        // console.log("scrollHandler category: ", category);
+        // console.log("scrollHandler nextPaging: ", nextPaging);
+        // console.log("scrollHandler isFetching: ", isFetching);
         if (category === "all") return;
-        if (nextPaging === null) return;
+        if (!nextPaging) return;
         if (isFetching) return;
 
         fetchProducts();
@@ -78,7 +77,7 @@ function Products() {
     }
 
     async function fetchRecommendation() {
-      response = await api.getRecommendation();
+      const response = await api.getRecommendation();
       setRecommendations(response.data);
     }
 
@@ -94,20 +93,38 @@ function Products() {
 
   return (
     <Wrapper>
-      {products.map(({ id, main_image, colors, title, price }, index) => {
-        return (
-          <Product key={id} to={`/products/${id}`} id={index}>
-            <ProductImage src={main_image} />
-            <ProductColors>
-              {colors.map(({ code }, index) => (
-                <ProductColor $colorCode={code} key={`${code}-${index}`} />
-              ))}
-            </ProductColors>
-            <ProductTitle>{title}</ProductTitle>
-            <ProductPrice>TWD.{price}</ProductPrice>
-          </Product>
-        );
-      })}
+      {products.length ? (
+        products.map(({ id, main_image, colors, title, price }, index) => {
+          return (
+            <Product key={id} to={`/products/${id}`} id={index}>
+              <ProductImage src={main_image} />
+              <ProductColors>
+                {colors.map(({ code }, index, arr) => {
+                  if (index > 0) {
+                    if (code === arr[index - 1].code) {
+                      return;
+                    }
+                  }
+                  return (
+                    <ProductColor $colorCode={code} key={`${code}-${index}`} />
+                  );
+                })}
+              </ProductColors>
+              <ProductTitle>{title}</ProductTitle>
+              <ProductPrice>TWD.{price}</ProductPrice>
+            </Product>
+          );
+        })
+      ) : (
+        <div className="mb-8 flex w-full flex-col items-center justify-center">
+          <h1 className="text-center text-3xl text-default">
+            抱歉，你的搜尋或篩選條件太嚴格囉！
+          </h1>
+          <h1 className="text-center text-3xl text-default">
+            換個條件試試看吧~
+          </h1>
+        </div>
+      )}
       {category !== "all" && (
         <Recommend isProductPage={false}>
           <Button

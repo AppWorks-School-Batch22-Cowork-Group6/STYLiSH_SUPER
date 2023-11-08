@@ -34,7 +34,9 @@ const api = {
   },
 
   async getProduct(id) {
-    const response = await fetch(`${this.hostname}/products/details?id=${id}`);
+    const response = await fetch(
+      `${this.newhostname}/products/details?id=${id}`,
+    );
     return await response.json();
   },
 

@@ -43,8 +43,6 @@ export const ProductProvider = ({ children }) => {
       } else {
         newUrlToFetch += `&size=${size}`;
       }
-
-      setUrlToFetch(newUrlToFetch);
       return newUrlToFetch;
     },
   };

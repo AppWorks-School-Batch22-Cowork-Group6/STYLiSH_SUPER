@@ -72,18 +72,20 @@ function TestingStream() {
   }
 
   async function handleViewerNegotiationNeededEvent(peer) {
-    const offer = await peer.createOffer();
-    await peer.setLocalDescription(offer);
-    const payload = {
-      sdp: peer.localDescription,
-    };
+    try {
+      const response = await axios.get("https://joazen.website/broadcast");
+      const offerDesc = new RTCSessionDescription(response.data.sdp);
+      await peer.setRemoteDescription(offerDesc);
 
-    const { data } = await axios.post(
-      "https://joazen.website/consumer",
-      payload,
-    );
-    const desc = new RTCSessionDescription(data.sdp);
-    peer.setRemoteDescription(desc).catch((e) => console.log(e));
+      const answer = await peer.createAnswer();
+      await peer.setLocalDescription(answer);
+      const payload = {
+        sdp: peer.localDescription,
+      };
+      await axios.post("https://joazen.website/consumer", payload);
+    } catch (Error) {
+      console.error("receiver went wrong: ", Error);
+    }
   }
 
   function handleTrackEvent(e) {
