@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ReactLoading from "react-loading";
 import { Link, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../../context/authContext";
+import ProductContext from "../../context/productContext";
 import api from "../../utils/api";
 import recommend from "../../utils/recommend";
 import Recommend from "./Recommend";
@@ -12,9 +14,13 @@ import Thumbnail from "./Recommend/Thumbnail";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const sliderRef = useRef(null);
+  const { urlToFetch } = useContext(ProductContext);
+  const { jwtToken } = useContext(AuthContext);
+  const initialSearchUrl = "https://www.joazen.website/api/products/search";
 
   const keyword = searchParams.get("keyword");
   const category = searchParams.get("category") || "all";
@@ -26,9 +32,17 @@ function Products() {
     async function fetchProducts() {
       isFetching = true;
       setIsLoading(true);
-      const response = keyword
-        ? await api.searchProducts(keyword, nextPaging)
-        : await api.getProducts(category, nextPaging);
+
+      let response = "";
+
+      if (urlToFetch && urlToFetch !== initialSearchUrl) {
+        response = await api.getParticularProducts(urlToFetch, nextPaging);
+      } else {
+        response = keyword
+          ? await api.searchProducts(keyword, nextPaging)
+          : await api.getProducts(category, nextPaging);
+      }
+
       if (nextPaging === 0) {
         setProducts(response.data);
       } else {
@@ -36,28 +50,38 @@ function Products() {
       }
       nextPaging = response.next_paging;
       isFetching = false;
+
       setIsLoading(false);
     }
 
     async function scrollHandler() {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 60
+      ) {
         const category = searchParams.get("category") || "all";
         if (category === "all") return;
-        if (nextPaging === undefined) return;
+        if (!nextPaging) return;
         if (isFetching) return;
 
         fetchProducts();
       }
     }
 
+    async function fetchRecommendation() {
+      const response = await api.getRecommendation();
+      setRecommendations(response.data);
+    }
+
     fetchProducts();
+    fetchRecommendation();
 
     window.addEventListener("scroll", scrollHandler);
 
     return () => {
       window.removeEventListener("scroll", scrollHandler);
     };
-  }, [keyword, category]);
+  }, [keyword, category, urlToFetch, jwtToken]);
 
   return (
     <Wrapper>
@@ -66,9 +90,16 @@ function Products() {
           <Product key={id} to={`/products/${id}`} id={index}>
             <ProductImage src={main_image} />
             <ProductColors>
-              {colors.map(({ code }) => (
-                <ProductColor $colorCode={`#${code}`} key={code} />
-              ))}
+              {colors.map(({ code }, index, arr) => {
+                if (index > 0) {
+                  if (code === arr[index - 1].code) {
+                    return;
+                  }
+                }
+                return (
+                  <ProductColor $colorCode={code} key={`${code}-${index}`} />
+                );
+              })}
             </ProductColors>
             <ProductTitle>{title}</ProductTitle>
             <ProductPrice>TWD.{price}</ProductPrice>
@@ -83,9 +114,17 @@ function Products() {
           />
           <Heading text="大家都在買" />
           <Container ref={sliderRef}>
-            {Array.from({ length: 10 }, (_, index) => (
-              <Thumbnail key={index} />
-            ))}
+            {recommendations.map(({ main_image, colors, title, id }, index) => {
+              return (
+                <Thumbnail
+                  key={index}
+                  image={main_image}
+                  colors={colors}
+                  title={title}
+                  id={id}
+                />
+              );
+            })}
           </Container>
           <Button
             position="right"
@@ -127,8 +166,16 @@ const Product = styled(Link)`
 `;
 
 const ProductImage = styled.img`
-  width: 100%;
+  width: 360px;
+  height: 480px;
+  object-fit: cover;
   vertical-align: middle;
+
+  @media screen and (max-width: 1279px) {
+    aspect-ratio: 3/4;
+    width: 100%;
+    height: unset;
+  }
 `;
 
 const ProductColors = styled.div`
@@ -144,6 +191,7 @@ const ProductColor = styled.div`
   width: 24px;
   height: 24px;
   box-shadow: 0px 0px 1px #bbbbbb;
+  border: 1px solid lightgray;
   background-color: ${(props) => props.$colorCode};
 
   @media screen and (max-width: 1279px) {

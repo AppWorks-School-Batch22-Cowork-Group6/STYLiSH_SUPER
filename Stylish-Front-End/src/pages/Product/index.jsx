@@ -1,14 +1,91 @@
-import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import api from '../../utils/api';
-import ProductVariants from './ProductVariants';
-import Recommend from '../Home/Recommend';
-import Button from '../Home/Recommend/Button';
-import Heading from '../Home/Recommend/Heading';
-import Thumbnail from '../Home/Recommend/Thumbnail';
-import Container from '../Home/Recommend/Container';
-import recommend from '../../utils/recommend';
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import api from "../../utils/api";
+import recommend from "../../utils/recommend";
+import Recommend from "../Home/Recommend";
+import Button from "../Home/Recommend/Button";
+import Container from "../Home/Recommend/Container";
+import Heading from "../Home/Recommend/Heading";
+import Thumbnail from "../Home/Recommend/Thumbnail";
+import ProductVariants from "./ProductVariants";
+
+function Product() {
+  const [product, setProduct] = useState();
+  const [recommendations, setRecommendations] = useState([]);
+  const { id } = useParams();
+  const sliderRef = useRef();
+
+  useEffect(() => {
+    async function getProduct() {
+      const { data } = await api.getProduct(id);
+      setProduct(data[0]);
+    }
+    async function fetchRecommendation() {
+      const response = await api.getRecommendation();
+      setRecommendations(response.data);
+    }
+
+    fetchRecommendation();
+    getProduct();
+  }, [id]);
+
+  if (!product) return null;
+
+  return (
+    <Wrapper>
+      <MainImage src={product.main_image} />
+      <Details>
+        <Title>{product.title}</Title>
+        <ID>{product.id}</ID>
+        <Price>TWD.{product.price}</Price>
+        <ProductVariants product={product} />
+        <Note>{product.note}</Note>
+        <Texture>{product.texture}</Texture>
+        <Description>{product.description}</Description>
+        <Place>素材產地 / {product.place}</Place>
+        <Place>加工產地 / {product.place}</Place>
+      </Details>
+      {
+        <Recommend isProductPage={true}>
+          <Button
+            position="left"
+            onMoveToPrev={() => recommend.moveToPreviousSlide(sliderRef)}
+          />
+          <Heading text="大家都在買" />
+          <Container ref={sliderRef}>
+            {recommendations.map(({ main_image, colors, title, id }, index) => {
+              return (
+                <Thumbnail
+                  key={index}
+                  image={main_image}
+                  colors={colors}
+                  title={title}
+                  id={id}
+                />
+              );
+            })}
+          </Container>
+          <Button
+            position="right"
+            onMoveToNext={() => recommend.moveToNextSlide(sliderRef)}
+          />
+        </Recommend>
+      }
+      <Story>
+        <StoryTitle>細部說明</StoryTitle>
+        <StoryContent>{product.story}</StoryContent>
+      </Story>
+      <Images>
+        {product.images.map((image, index) => (
+          <Image src={image} key={index} />
+        ))}
+      </Images>
+    </Wrapper>
+  );
+}
+
+export default Product;
 
 const Wrapper = styled.div`
   max-width: 960px;
@@ -24,9 +101,13 @@ const Wrapper = styled.div`
 
 const MainImage = styled.img`
   width: 560px;
+  height: 747px;
+  object-fit: cover;
 
   @media screen and (max-width: 1279px) {
     width: 100%;
+    height: unset;
+    aspect-ratio: 3/4;
   }
 `;
 
@@ -44,6 +125,7 @@ const Title = styled.div`
   font-size: 32px;
   letter-spacing: 6.4px;
   color: #3f3a3a;
+  white-space: wrap;
 
   @media screen and (max-width: 1279px) {
     line-height: 24px;
@@ -147,7 +229,7 @@ const StoryTitle = styled.div`
   }
 
   &::after {
-    content: '';
+    content: "";
     height: 1px;
     flex-grow: 1;
     background-color: #3f3a3a;
@@ -194,56 +276,3 @@ const Image = styled.img`
     }
   }
 `;
-
-function Product() {
-  const [product, setProduct] = useState();
-  const { id } = useParams();
-  const sliderRef = useRef();
-
-  useEffect(() => {
-    async function getProduct() {
-      const { data } = await api.getProduct(id);
-      setProduct(data);
-    }
-    getProduct();
-  }, [id]);
-
-  if (!product) return null;
-
-  return (
-    <Wrapper>
-      <MainImage src={ product.main_image } />
-      <Details>
-        <Title>{ product.title }</Title>
-        <ID>{ product.id }</ID>
-        <Price>TWD.{ product.price }</Price>
-        <ProductVariants product={ product } />
-        <Note>{ product.note }</Note>
-        <Texture>{ product.texture }</Texture>
-        <Description>{ product.description }</Description>
-        <Place>素材產地 / { product.place }</Place>
-        <Place>加工產地 / { product.place }</Place>
-      </Details>
-      { <Recommend isProductPage={ true }>
-        <Button position="left" onMoveToPrev={ () => recommend.moveToPreviousSlide(sliderRef) } />
-        <Heading text="大家都在買" />
-        <Container ref={ sliderRef }>
-          { Array.from({ length: 10 }, (_, index) => <Thumbnail key={ index } />) }
-        </Container>
-        <Button position="right" onMoveToNext={ () => recommend.moveToNextSlide(sliderRef) } />
-      </Recommend>
-      }
-      <Story>
-        <StoryTitle>細部說明</StoryTitle>
-        <StoryContent>{ product.story }</StoryContent>
-      </Story>
-      <Images>
-        { product.images.map((image, index) => (
-          <Image src={ image } key={ index } />
-        )) }
-      </Images>
-    </Wrapper>
-  );
-}
-
-export default Product;

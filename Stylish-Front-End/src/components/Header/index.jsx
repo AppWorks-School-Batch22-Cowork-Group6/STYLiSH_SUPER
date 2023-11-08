@@ -17,6 +17,7 @@ function Header() {
   const { actions } = useContext(ProductContext);
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   const [searchParams] = useSearchParams();
   const category = searchParams.get("category");
@@ -25,9 +26,19 @@ function Header() {
     if (category) setInputValue("");
   }, [category]);
 
+  const getSuggestions = async (keyword) => {
+    const { data } = await api.getSuggestions(keyword);
+    setSuggestions(data);
+  };
+
   return (
     <Wrapper>
-      <Logo to="/" />
+      <Logo
+        to="/"
+        onClick={() => {
+          actions.setUrlToFetch(null);
+        }}
+      />
       <CategoryLinks>
         {categories.map(({ name, displayText }, index) => (
           <React.Fragment key={`category_${index}`}>
@@ -67,9 +78,18 @@ function Header() {
             navigate(`/?keyword=${inputValue}`);
           }
         }}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+          getSuggestions(e.target.value);
+        }}
         value={inputValue}
+        list="suggestions"
       />
+      <datalist id="suggestions">
+        {suggestions.map((word, index) => {
+          return <option value={word} key={index}></option>;
+        })}
+      </datalist>
       <PageLinks>
         <PageLink to="/checkout">
           <PageLinkCartIcon icon={cart}>

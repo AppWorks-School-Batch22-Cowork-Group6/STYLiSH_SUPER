@@ -1,7 +1,7 @@
-import { useContext } from 'react';
-import ReactLoading from 'react-loading';
-import styled from 'styled-components';
-import { AuthContext } from '../../context/authContext';
+import { useContext } from "react";
+import ReactLoading from "react-loading";
+import styled from "styled-components";
+import { AuthContext } from "../../context/authContext";
 
 const Wrapper = styled.div`
   padding: 60px 20px;
@@ -18,9 +18,9 @@ const Title = styled.div`
   font-weight: bold;
 `;
 
-const Photo = styled.img`
-  margin-top: 24px;
-`;
+// const Photo = styled.img`
+//   margin-top: 24px;
+// `;
 
 const Content = styled.div`
   margin-top: 24px;
@@ -39,22 +39,17 @@ function Profile() {
 
   const renderContent = () => {
     if (loading) return <Loading type="spinningBubbles" color="#313538" />;
-    if (isLogin) return (
-      <>
-        <Photo src={user.picture} />
-        <Content>{user.name}</Content>
-        <Content>{user.email}</Content>
-        <LogoutButton
-          onClick={logout}
-        >
-          登出
-        </LogoutButton>
-      </>
-    );
-    return (
-      <LogoutButton onClick={login}>登入</LogoutButton>
-    );
-  }
+    if (isLogin)
+      return (
+        <>
+          {/* <Photo src={user.picture} /> */}
+          <Content>{user.name}</Content>
+          <Content>{user.email}</Content>
+          <LogoutButton onClick={logout}>登出</LogoutButton>
+        </>
+      );
+    return <LogoutButton onClick={login}>登入</LogoutButton>;
+  };
   return (
     <Wrapper>
       <Title>會員基本資訊</Title>
