@@ -16,7 +16,7 @@ const api = {
     if (jwtToken) {
       response = await fetch(`${this.newhostname}/products/recommendation`, {
         headers: {
-          Authorization: jwtToken,
+          Authorization: `Bearer ${jwtToken}`,
           "Content-Type": "application/json",
         },
       });
@@ -34,7 +34,7 @@ const api = {
 
   async searchProducts(keyword, paging) {
     const response = await fetch(
-      `${this.hostname}/products/search?keyword=${keyword}&paging=${paging}`,
+      `${this.newhostname}/products/search?keyword=${keyword}&paging=${paging}`,
     );
     return await response.json();
   },
@@ -52,7 +52,7 @@ const api = {
   },
 
   async checkout(data, jwtToken) {
-    const response = await fetch(`${this.hostname}/order/checkout`, {
+    const response = await fetch(`${this.newhostname}/order/checkout`, {
       body: JSON.stringify(data),
       headers: new Headers({
         "Content-Type": "application/json",
@@ -75,7 +75,7 @@ const api = {
   },
 
   async getProfile(jwtToken) {
-    const response = await fetch(`${this.hostname}/user/profile`, {
+    const response = await fetch(`${this.newhostname}/user/profile`, {
       headers: new Headers({
         "Content-Type": "application/json",
         Authorization: `Bearer ${jwtToken}`,
