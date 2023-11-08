@@ -59,8 +59,8 @@ function Products() {
         window.innerHeight + window.scrollY >=
         document.body.offsetHeight - 60
       ) {
-        const category = searchParams.get("category") || "all";
-        if (category === "all") return;
+        // const category = searchParams.get("category") || "all";
+        // if (category === "all") return;
         if (!nextPaging) return;
         if (isFetching) return;
 
