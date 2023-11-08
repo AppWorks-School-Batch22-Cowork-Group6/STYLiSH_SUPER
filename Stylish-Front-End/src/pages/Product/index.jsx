@@ -56,13 +56,14 @@ function Product() {
           />
           <Heading text="大家都在買" />
           <Container ref={sliderRef}>
-            {recommendations.map(({ main_image, colors, title }, index) => {
+            {recommendations.map(({ main_image, colors, title, id }, index) => {
               return (
                 <Thumbnail
                   key={index}
                   image={main_image}
                   colors={colors}
                   title={title}
+                  id={id}
                 />
               );
             })}
@@ -102,10 +103,12 @@ const Wrapper = styled.div`
 
 const MainImage = styled.img`
   width: 560px;
+  height: 747px;
   object-fit: cover;
 
   @media screen and (max-width: 1279px) {
     width: 100%;
+    height: unset;
   }
 `;
 
@@ -123,6 +126,7 @@ const Title = styled.div`
   font-size: 32px;
   letter-spacing: 6.4px;
   color: #3f3a3a;
+  white-space: wrap;
 
   @media screen and (max-width: 1279px) {
     line-height: 24px;

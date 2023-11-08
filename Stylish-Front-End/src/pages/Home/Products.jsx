@@ -93,38 +93,27 @@ function Products() {
 
   return (
     <Wrapper>
-      {products.length ? (
-        products.map(({ id, main_image, colors, title, price }, index) => {
-          return (
-            <Product key={id} to={`/products/${id}`} id={index}>
-              <ProductImage src={main_image} />
-              <ProductColors>
-                {colors.map(({ code }, index, arr) => {
-                  if (index > 0) {
-                    if (code === arr[index - 1].code) {
-                      return;
-                    }
+      {products.map(({ id, main_image, colors, title, price }, index) => {
+        return (
+          <Product key={id} to={`/products/${id}`} id={index}>
+            <ProductImage src={main_image} />
+            <ProductColors>
+              {colors.map(({ code }, index, arr) => {
+                if (index > 0) {
+                  if (code === arr[index - 1].code) {
+                    return;
                   }
-                  return (
-                    <ProductColor $colorCode={code} key={`${code}-${index}`} />
-                  );
-                })}
-              </ProductColors>
-              <ProductTitle>{title}</ProductTitle>
-              <ProductPrice>TWD.{price}</ProductPrice>
-            </Product>
-          );
-        })
-      ) : (
-        <div className="mb-8 flex w-full flex-col items-center justify-center">
-          <h1 className="text-center text-3xl text-default">
-            抱歉，你的搜尋或篩選條件太嚴格囉！
-          </h1>
-          <h1 className="text-center text-3xl text-default">
-            換個條件試試看吧~
-          </h1>
-        </div>
-      )}
+                }
+                return (
+                  <ProductColor $colorCode={code} key={`${code}-${index}`} />
+                );
+              })}
+            </ProductColors>
+            <ProductTitle>{title}</ProductTitle>
+            <ProductPrice>TWD.{price}</ProductPrice>
+          </Product>
+        );
+      })}
       {category !== "all" && (
         <Recommend isProductPage={false}>
           <Button
@@ -133,13 +122,14 @@ function Products() {
           />
           <Heading text="大家都在買" />
           <Container ref={sliderRef}>
-            {recommendations.map(({ main_image, colors, title }, index) => {
+            {recommendations.map(({ main_image, colors, title, id }, index) => {
               return (
                 <Thumbnail
                   key={index}
                   image={main_image}
                   colors={colors}
                   title={title}
+                  id={id}
                 />
               );
             })}

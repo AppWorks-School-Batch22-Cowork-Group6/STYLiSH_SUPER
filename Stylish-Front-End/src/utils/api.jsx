@@ -17,7 +17,7 @@ const api = {
   },
 
   async getCampaigns() {
-    const response = await fetch(`${this.hostname}/marketing/campaigns`);
+    const response = await fetch(`${this.newhostname}/marketing/campaigns`);
     return await response.json();
   },
 
@@ -53,7 +53,7 @@ const api = {
   },
 
   async signin(data) {
-    const response = await fetch(`${this.hostname}/user/signin`, {
+    const response = await fetch(`${this.newhostname}/user/signin`, {
       body: JSON.stringify(data),
       headers: new Headers({
         "Content-Type": "application/json",
