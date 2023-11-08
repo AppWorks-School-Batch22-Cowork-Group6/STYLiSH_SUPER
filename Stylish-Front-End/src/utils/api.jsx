@@ -14,7 +14,6 @@ const api = {
     const jwtToken = localStorage.getItem("jwtToken");
     let response;
     if (jwtToken) {
-      console.log("activate here");
       response = await fetch(`${this.newhostname}/products/recommendation`, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
@@ -22,7 +21,6 @@ const api = {
         },
       });
     } else {
-      console.log("activate in else");
       response = await fetch(`${this.newhostname}/products/recommendation`);
     }
     const result = await response.json();
@@ -30,7 +28,7 @@ const api = {
   },
 
   async getCampaigns() {
-    const response = await fetch(`${this.newhostname}/marketing/campaigns`);
+    const response = await fetch(`${this.hostname}/marketing/campaigns`);
     return await response.json();
   },
 

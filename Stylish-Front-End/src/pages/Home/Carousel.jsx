@@ -102,7 +102,6 @@ function Carousel() {
   useEffect(() => {
     async function getCampaigns() {
       const { data } = await api.getCampaigns();
-      console.log(data);
       setCampaigns(data);
       intervalRef.current = window.setInterval(() => {
         setActiveCampaignIndex((prev) =>

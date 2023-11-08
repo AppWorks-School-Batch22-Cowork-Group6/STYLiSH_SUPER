@@ -125,10 +125,7 @@ function ProductVariants({ product }) {
   const { cartItems, setCartItems } = useContext(CartContext);
 
   function getStock(colorCode, size) {
-    console.log("colorCode in getStock", colorCode);
-    console.log("size in getStock", size);
     if (!colorCode || !size) {
-      console.log("nonononono");
       return 0;
     }
     const qty =
@@ -236,7 +233,6 @@ function ProductVariants({ product }) {
         <OptionName>尺寸｜</OptionName>
         {product.sizes.map((size) => {
           const stock = getStock(selectedColorCode, size);
-          console.log("stock does have value", stock);
           return (
             <Size
               key={size}
