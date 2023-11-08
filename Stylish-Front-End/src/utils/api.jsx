@@ -30,7 +30,7 @@ const api = {
   },
 
   async getCampaigns() {
-    const response = await fetch(`${this.newhostname}/marketing/campaigns`);
+    const response = await fetch(`${this.hostname}/marketing/campaigns`);
     return await response.json();
   },
 

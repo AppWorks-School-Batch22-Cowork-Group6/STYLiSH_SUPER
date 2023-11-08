@@ -21,7 +21,7 @@ const OptionName = styled.div`
     font-size: 14px;
     letter-spacing: 2.8px;
 
-    ${(props) => props.hideOnMobile && "display: none;"}
+    ${(props) => props.$hideonmobile && "display: none;"}
   }
 `;
 
@@ -125,7 +125,12 @@ function ProductVariants({ product }) {
   const { cartItems, setCartItems } = useContext(CartContext);
 
   function getStock(colorCode, size) {
-    if (!colorCode || !size) return 0;
+    console.log("colorCode in getStock", colorCode);
+    console.log("size in getStock", size);
+    if (!colorCode || !size) {
+      console.log("nonononono");
+      return 0;
+    }
     const qty =
       cartItems.find(
         (item) =>
@@ -133,11 +138,21 @@ function ProductVariants({ product }) {
           item.color.code === colorCode &&
           item.size === size,
       )?.qty || 0;
-    return (
+
+    if (
       product.variants.find(
         (variant) => variant.color_code === colorCode && variant.size === size,
-      ).stock - qty
-    );
+      )
+    ) {
+      return (
+        product.variants.find(
+          (variant) =>
+            variant.color_code === colorCode && variant.size === size,
+        ).stock - qty
+      );
+    } else {
+      return 0;
+    }
   }
 
   function addToCart() {
@@ -211,7 +226,7 @@ function ProductVariants({ product }) {
             $colorCode={`${color.code}`}
             onClick={() => {
               setSelectedColorCode(color.code);
-              setSelectedSize();
+              setSelectedSize(null);
               setQuantity(0);
             }}
           />
@@ -221,6 +236,7 @@ function ProductVariants({ product }) {
         <OptionName>尺寸｜</OptionName>
         {product.sizes.map((size) => {
           const stock = getStock(selectedColorCode, size);
+          console.log("stock does have value", stock);
           return (
             <Size
               key={size}
@@ -238,7 +254,7 @@ function ProductVariants({ product }) {
         })}
       </Option>
       <Option>
-        <OptionName hideOnMobile>數量｜</OptionName>
+        <OptionName $hideonmobile>數量｜</OptionName>
         <QuantitySelector>
           <DecrementButton
             onClick={() => {

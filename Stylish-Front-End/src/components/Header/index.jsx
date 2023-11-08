@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { AuthContext } from "../../context/authContext";
 import { CartContext } from "../../context/cartContext";
 import ProductContext from "../../context/productContext";
+import api from "../../utils/api";
 import cartMobile from "./cart-mobile.png";
 import cart from "./cart.png";
 import logo from "./logo.png";
@@ -80,7 +81,9 @@ function Header() {
         }}
         onChange={(e) => {
           setInputValue(e.target.value);
-          getSuggestions(e.target.value);
+          if (e.target.value) {
+            getSuggestions(e.target.value);
+          }
         }}
         value={inputValue}
         list="suggestions"
