@@ -24,6 +24,7 @@ export const AuthContextProvider = ({ children }) => {
       access_token: accessToken,
     });
     const { access_token: tokenFromServer, user: userData } = data;
+    userData.picture = "https://i.pravatar.cc/150?img=3";
     setUser(userData);
     setJwtToken(tokenFromServer);
     console.log(tokenFromServer);

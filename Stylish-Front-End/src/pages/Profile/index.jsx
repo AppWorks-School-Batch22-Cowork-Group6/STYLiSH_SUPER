@@ -18,9 +18,9 @@ const Title = styled.div`
   font-weight: bold;
 `;
 
-// const Photo = styled.img`
-//   margin-top: 24px;
-// `;
+const Photo = styled.img`
+  margin-top: 24px;
+`;
 
 const Content = styled.div`
   margin-top: 24px;
@@ -42,7 +42,7 @@ function Profile() {
     if (isLogin)
       return (
         <>
-          {/* <Photo src={user.picture} /> */}
+          <Photo src={user.picture} />
           <Content>{user.name}</Content>
           <Content>{user.email}</Content>
           <LogoutButton onClick={logout}>登出</LogoutButton>
