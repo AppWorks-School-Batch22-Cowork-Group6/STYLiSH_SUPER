@@ -5,6 +5,7 @@ import ProductContext from "../../context/productContext";
 
 const FilterMenu = () => {
   const [searchParams] = useSearchParams();
+  const keyword = searchParams.get("keyword");
   const category = searchParams.get("category") || "all";
 
   const {
@@ -105,7 +106,7 @@ const FilterMenu = () => {
                 className={classNames({
                   "h-8 w-32 cursor-pointer text-xs text-default": true,
                   "bg-button": false,
-                  "border-button border border-solid": true,
+                  "border border-solid border-button": true,
                 })}
                 onClick={() => {
                   actions.setActiveColorFilterButton(null);
@@ -133,7 +134,7 @@ const FilterMenu = () => {
           </div>
         </div>
       )}
-      {isWide && category !== "all" && (
+      {isWide && (category !== "all" || keyword) && (
         <div className="mx-auto -mt-2 flex w-[1160px] flex-col gap-2 rounded-b-xl bg-gray-100 pb-5 pt-2">
           <div className="flex flex-row items-center gap-9 px-6">
             <h2 className="mr-[43px] text-[22px] text-default">顏色：</h2>

@@ -6,6 +6,7 @@ import ProductContext from "../../context/productContext";
 
 const SortMenu = () => {
   const [searchParams] = useSearchParams();
+  const keyword = searchParams.get("keyword");
   const category = searchParams.get("category") || "all";
   const priceTextOptions = ["價格低至高", "價格高到低"];
 
@@ -73,7 +74,7 @@ const SortMenu = () => {
   };
 
   return (
-    category !== "all" && (
+    (category !== "all" || keyword) && (
       <div className="mx-auto mt-8 flex h-20 w-[1160px] flex-row items-center justify-start gap-9 rounded-xl bg-gray-100 sm:mx-6 sm:-mb-[11px] sm:mt-1 sm:h-10 sm:w-auto sm:justify-start sm:gap-3 sm:bg-transparent">
         <h1 className="ml-6 text-[22px] text-default sm:ml-0 sm:hidden sm:whitespace-nowrap sm:text-xs">
           排序選項：

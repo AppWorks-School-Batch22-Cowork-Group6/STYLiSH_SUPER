@@ -106,7 +106,7 @@ function Products() {
           </Product>
         );
       })}
-      {category !== "all" && (
+      {(category !== "all" || keyword) && (
         <Recommend isProductPage={false}>
           <Button
             position="left"
